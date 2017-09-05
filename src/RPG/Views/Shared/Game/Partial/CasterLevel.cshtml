@@ -1,0 +1,161 @@
+﻿@model RPG.Models.CharacterModal.Character
+
+<h2>Caster infomation</h2>
+<div class="col-xs-12">
+    <div class="row">
+        <ul class="nav nav-tabs">
+            @{ var first = true;}
+            @foreach (var classBase in Model.CurrentClasses.Where(x => x.Class.IsCaster()))
+            {
+                <li class="@Html.Raw(first ? "active" : "")"><a href="#@Html.Raw(classBase.Class.ID)" data-toggle="tab">@classBase.Class.Name</a></li>    
+                if (first)
+                {
+                    first = false;
+                }
+            }
+            @{first = true;}
+        </ul>
+    </div>
+    <div class="row">
+        <div class="tab-content">
+            @foreach (var classBase in Model.CurrentClasses.Where(x => x.Class.IsCaster()))
+            {
+                var currentCasterLevel = Model.GetCasterLevelForClass(classBase.Class.ID);
+                <div class="col-xs-12">
+                    <div class="row">
+                        <div class="tab-pane @Html.Raw(first ? "active" : "")" id="@Html.Raw(classBase.Class.ID)">
+                            <table style="width:100%" class="table table-bordered table-striped table-hover">   
+                                <tr style="font-weight: bold;">
+                                    <td>Casterlevel:</td><td>@currentCasterLevel</td><td colspan="9"></td>
+                                </tr>
+                                <tr>
+                                    <td style="width:20%">Spells pr day</td>
+                                    @for (var i = 0; i < 10; ++i)
+                                    {
+                                        <td style="width: 8%">@classBase.Class.SpellPrDayDictonary[currentCasterLevel][i]</td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td style="width:20%">Bonus spells</td>
+                                    @for (var i = 0; i < 10; ++i)
+                                    {
+                                        <td style="width: 8%">@Model.GetBonusSpellsPrLevel(i, classBase.Class.AbilityUsedForCasting)</td>
+                                    }
+                                </tr>
+                                <tr style="font-weight: bold;">
+                                    <td style="width:20%">Level</td>
+                                    @for (var i = 0; i < 10; ++i)
+                                    {
+                                        <td style="width: 8%">@i</td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td style="width:20%">Spell save DC</td>
+                                    @for (var i = 0; i < 10; ++i)
+                                    {
+                                        <td style="width: 8%">@Model.GetSpellDcPrLevel(i, classBase.Class.AbilityUsedForCasting)</td>
+                                    }
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <ul class="nav nav-tabs">
+                            @for (var i = 0; i < 10; ++i)
+                            {
+                                <li @Html.Raw(i == 0 ? " class=\"active\"" : "")><a data-toggle="tab" href="#@Html.Raw(classBase.Class.ID+"sp"+i)">Spell level @i</a></li>
+                            }
+                        </ul>
+                        <div class="tab-content">
+                            @for (var i = 0; i < 10; ++i)
+                            {
+                                <div id="@Html.Raw(classBase.Class.ID+"sp"+i)" class="tab-pane fade @Html.Raw( i == 0 ? " in active" : "")">
+                                    <h2>Spell level @i</h2>
+                                    <table class="table table-bordered table-condensed table-striped table-hover">
+                                        <thead>
+                                            <tr>
+                                                <td style="width:20%">Name</td>
+                                                <td style="width:10%">School</td>
+                                                <td style="width:10%">Components</td>
+                                                <td style="width:10%">Time</td>
+                                                <td style="width:10%">Range</td>
+                                                <td style="width:10%">Target, Effect, Area</td>
+                                                <td style="width:10%">Duration</td>
+                                                <td style="width:10%">Save</td>
+                                                <td style="width:6%">SR</td>
+                                                <td style="width:7%">Spend</td>
+                                                <td style="width:7%">Change</td>
+                                            </tr>
+                                        </thead>
+                                        @foreach (var spell in Model.GetSpellsSlots(i, classBase.Class.ID))
+                                        {
+                                            <tr>
+                                                @if (spell == null)
+                                                {
+                                                    <td style="width:20%">Empty</td>
+                                                    <td style="width:10%"></td>
+                                                    <td style="width:10%"></td>
+                                                    <td style="width:10%"></td>
+                                                    <td style="width:10%"></td>
+                                                    <td style="width:10%"></td>
+                                                    <td style="width:10%"></td>
+                                                    <td style="width:10%"></td>
+                                                    <td style="width:6%"></td>
+                                                    <td style="width:7%"></td>
+                                                    <td style="width:7%"><a style="width: 100%;" href="javascript:void(0);" onclick="$('#addSpellToSlotCasterLevel').prop('value', @Html.Raw(currentCasterLevel));$('#addSpellToSlotSlotsLevel').prop('value', @Html.Raw(i));$('#addSpellToSlotClassId').prop('value', '@Html.Raw(classBase.Class.ID.ToString())');$('#addSpellToSlot').modal('show');" class="btn btn-default">Add</a></td>
+                                                }
+                                                else
+                                                {
+                                                    <td style="width:20%"><button type="button" class="btn btn-primary" @Html.Raw(spell.CurrentlyUsable ? "" : "disabled") onclick="CastSpellSlot('@spell.Id.ToString()',@Html.Raw(i),'@Html.Raw(classBase.Class.ID.ToString())','@Html.Raw(Model.ID)')">@spell.Name</button></td>
+                                                    <td style="width:10%">@spell.School</td>
+                                                    <td style="width:10%">@spell.Components</td>
+                                                    <td style="width:10%">@spell.Time</td>
+                                                    <td style="width:10%">@spell.Range</td>
+                                                    <td style="width:10%">@spell.TargetEffectArea</td>
+                                                    <td style="width:10%">@spell.Duration</td>
+                                                    <td style="width:10%">@spell.Save</td>
+                                                    <td style="width:6%">@spell.SR</td>
+                                                    <td style="width:7%"><button type="button" class="btn btn-primary" @Html.Raw(spell.SlotSpend ? "disabled" : "") onclick="SpendSpellSlot('@spell.Id.ToString()',@Html.Raw(i),'@Html.Raw(classBase.Class.ID.ToString())','@Html.Raw(Model.ID)')">Spend</button></td>
+                                                    <td style="width:7%"><button type="button" class="btn btn-primary" @Html.Raw(spell.SlotSpend ? "disabled" : "") onclick="RemoveSpellFromSlot('@spell.Id.ToString()',@Html.Raw(i),'@Html.Raw(classBase.Class.ID.ToString())','@Html.Raw(Model.ID)')">Remove</button></td>
+                                                }
+                                            </tr>
+                                        }
+                                    </table>
+                                </div>   
+                            }
+                        </div>
+                    </div>
+                </div>
+                if (first)
+                {
+                    first = false;
+                }
+            }
+        </div>
+    </div>
+</div>
+<div id="addSpellToSlot" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add spell to slot.</h4>
+            </div>
+            <div class="modal-body">
+                <p>Select spell to add.</p>
+                <select id="addSpellToSlotSelector" class="addSpellToSlotSelector" style="width:100%">
+                    <option value="00000000-0000-0000-0000-000000000000" selected="selected">Select a spell......</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="AddSpellToSlot($('#addSpellToSlotSelector option:selected').val(),$('#addSpellToSlotSlotsLevel').prop('value'),$('#addSpellToSlotClassId').prop('value'),'@Html.Raw(Model.ID)')">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input style="visibility: hidden" type="number" id="addSpellToSlotSlotsLevel" name="addSpellToSlotSlotsLevel" value="0"/>
+<input style="visibility: hidden" type="number" id="addSpellToSlotCasterLevel" name="addSpellToSlotCasterLevel" value="0"/>
+<input style="visibility: hidden" type="text" id="addSpellToSlotClassId" name="addSpellToSlotClassId" value="00000000-0000-0000-0000-000000000000"/>
+<input style="visibility: hidden" type="text" id="addSpellToSlotCharId" name="addSpellToSlotCharId" value="@Html.Raw(Model.ID)"/>
+@Scripts.Render("~/bundles/casterlevelready")

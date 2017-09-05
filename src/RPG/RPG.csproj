@@ -1,0 +1,1229 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{23566C28-F438-4C57-8CA9-04B984A69D82}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>RPG</RootNamespace>
+    <AssemblyName>RPG</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <TargetFrameworkProfile />
+    <UseGlobalApplicationHostFile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Antlr3.Runtime">
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="DotNetZip, Version=1.10.1.0, Culture=neutral, PublicKeyToken=6583c7c814667745, processorArchitecture=MSIL">
+      <HintPath>..\packages\DotNetZip.1.10.1\lib\net20\DotNetZip.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=9.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http.Extensions">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http.Primitives">
+      <HintPath>..\packages\Microsoft.Net.Http.2.2.29\lib\net45\System.Net.Http.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Caching" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.3\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.3\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Providers, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Providers.Core.2.0.0\lib\net40\System.Web.Providers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Workflow.ComponentModel" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Net.Http">
+    </Reference>
+    <Reference Include="System.Net.Http.WebRequest">
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Creator\ConditionController.cs" />
+    <Compile Include="Controllers\Creator\SpellCasterRequirementsController.cs" />
+    <Compile Include="Controllers\Creator\SpellController.cs" />
+    <Compile Include="Controllers\Game\CharacterActionController.cs" />
+    <Compile Include="Controllers\Game\CharacterEquipmentController.cs" />
+    <Compile Include="Controllers\Game\CharacterCombatController.cs" />
+    <Compile Include="Controllers\Game\CharacterEquipmentModifierController.cs" />
+    <Compile Include="Controllers\Game\CharacterOverviewController.cs" />
+    <Compile Include="Controllers\Game\CharacterSelectorController.cs" />
+    <Compile Include="Controllers\Common\HtmlConfiguration.cs" />
+    <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\Creator\BonusController.cs" />
+    <Compile Include="Controllers\Creator\CharacterCreatorController.cs" />
+    <Compile Include="Controllers\Creator\ClassAbilityByClassLevelController.cs" />
+    <Compile Include="Controllers\Creator\ClassController.cs" />
+    <Compile Include="Controllers\Creator\ClassSaveRateController.cs" />
+    <Compile Include="Controllers\Creator\CreatorController.cs" />
+    <Compile Include="Controllers\Creator\ItemController.cs" />
+    <Compile Include="Controllers\Creator\ItemMaterialBonusController.cs" />
+    <Compile Include="Controllers\Creator\ItemMaterialController.cs" />
+    <Compile Include="Controllers\Creator\LanguageController.cs" />
+    <Compile Include="Controllers\Creator\RaceAgeController.cs" />
+    <Compile Include="Controllers\Creator\RaceController.cs" />
+    <Compile Include="Controllers\Creator\SkillController.cs" />
+    <Compile Include="Controllers\Creator\SkillSynergiController.cs" />
+    <Compile Include="Controllers\Creator\SpecialAbilityController.cs" />
+    <Compile Include="Controllers\Extenstions\HtmlExtensions.cs" />
+    <Compile Include="Controllers\Game\CharacterControllerBase.cs" />
+    <Compile Include="Controllers\Game\CharacterSpellController.cs" />
+    <Compile Include="Controllers\GM\GmOverviewController.cs" />
+    <Compile Include="Controllers\GM\HistoryController.cs" />
+    <Compile Include="Controllers\GM\LocationController.cs" />
+    <Compile Include="Controllers\GM\MapController.cs" />
+    <Compile Include="Controllers\GM\NpcOverviewController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701130955031_1.cs" />
+    <Compile Include="Migrations\201701130955031_1.Designer.cs">
+      <DependentUpon>201701130955031_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701131217012_2.cs" />
+    <Compile Include="Migrations\201701131217012_2.Designer.cs">
+      <DependentUpon>201701131217012_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701131222024_3.cs" />
+    <Compile Include="Migrations\201701131222024_3.Designer.cs">
+      <DependentUpon>201701131222024_3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701131330056_4.cs" />
+    <Compile Include="Migrations\201701131330056_4.Designer.cs">
+      <DependentUpon>201701131330056_4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701131336169_5.cs" />
+    <Compile Include="Migrations\201701131336169_5.Designer.cs">
+      <DependentUpon>201701131336169_5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701141141497_6.cs" />
+    <Compile Include="Migrations\201701141141497_6.Designer.cs">
+      <DependentUpon>201701141141497_6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701141154011_7.cs" />
+    <Compile Include="Migrations\201701141154011_7.Designer.cs">
+      <DependentUpon>201701141154011_7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701141207446_8.cs" />
+    <Compile Include="Migrations\201701141207446_8.Designer.cs">
+      <DependentUpon>201701141207446_8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701141923373_10.cs" />
+    <Compile Include="Migrations\201701141923373_10.Designer.cs">
+      <DependentUpon>201701141923373_10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701151909284_11.cs" />
+    <Compile Include="Migrations\201701151909284_11.Designer.cs">
+      <DependentUpon>201701151909284_11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701161919486_12.cs" />
+    <Compile Include="Migrations\201701161919486_12.Designer.cs">
+      <DependentUpon>201701161919486_12.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701161930034_13.cs" />
+    <Compile Include="Migrations\201701161930034_13.Designer.cs">
+      <DependentUpon>201701161930034_13.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701171922275_14.cs" />
+    <Compile Include="Migrations\201701171922275_14.Designer.cs">
+      <DependentUpon>201701171922275_14.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701251909132_t1.cs" />
+    <Compile Include="Migrations\201701251909132_t1.Designer.cs">
+      <DependentUpon>201701251909132_t1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701261525121_t2.cs" />
+    <Compile Include="Migrations\201701261525121_t2.Designer.cs">
+      <DependentUpon>201701261525121_t2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701261535136_t3.cs" />
+    <Compile Include="Migrations\201701261535136_t3.Designer.cs">
+      <DependentUpon>201701261535136_t3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201701281929250_t31.cs" />
+    <Compile Include="Migrations\201701281929250_t31.Designer.cs">
+      <DependentUpon>201701281929250_t31.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702021551191_t0202_1.cs" />
+    <Compile Include="Migrations\201702021551191_t0202_1.Designer.cs">
+      <DependentUpon>201702021551191_t0202_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702021555029_t0202_2.cs" />
+    <Compile Include="Migrations\201702021555029_t0202_2.Designer.cs">
+      <DependentUpon>201702021555029_t0202_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702051223358_tet.cs" />
+    <Compile Include="Migrations\201702051223358_tet.Designer.cs">
+      <DependentUpon>201702051223358_tet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702051250423_dmgdto.cs" />
+    <Compile Include="Migrations\201702051250423_dmgdto.Designer.cs">
+      <DependentUpon>201702051250423_dmgdto.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702141737461_io1.cs" />
+    <Compile Include="Migrations\201702141737461_io1.Designer.cs">
+      <DependentUpon>201702141737461_io1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702141806374_io2.cs" />
+    <Compile Include="Migrations\201702141806374_io2.Designer.cs">
+      <DependentUpon>201702141806374_io2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702190850443_aaat.cs" />
+    <Compile Include="Migrations\201702190850443_aaat.Designer.cs">
+      <DependentUpon>201702190850443_aaat.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702190900350_add3.cs" />
+    <Compile Include="Migrations\201702190900350_add3.Designer.cs">
+      <DependentUpon>201702190900350_add3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702191014526_adddd1.cs" />
+    <Compile Include="Migrations\201702191014526_adddd1.Designer.cs">
+      <DependentUpon>201702191014526_adddd1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702191029409_chargesindb.cs" />
+    <Compile Include="Migrations\201702191029409_chargesindb.Designer.cs">
+      <DependentUpon>201702191029409_chargesindb.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702191100069_testt.cs" />
+    <Compile Include="Migrations\201702191100069_testt.Designer.cs">
+      <DependentUpon>201702191100069_testt.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702201850059_ilw1.cs" />
+    <Compile Include="Migrations\201702201850059_ilw1.Designer.cs">
+      <DependentUpon>201702201850059_ilw1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702231457185_itemOwnScore.cs" />
+    <Compile Include="Migrations\201702231457185_itemOwnScore.Designer.cs">
+      <DependentUpon>201702231457185_itemOwnScore.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703031951519_casterType.cs" />
+    <Compile Include="Migrations\201703031951519_casterType.Designer.cs">
+      <DependentUpon>201703031951519_casterType.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703041851242_casterdata.cs" />
+    <Compile Include="Migrations\201703041851242_casterdata.Designer.cs">
+      <DependentUpon>201703041851242_casterdata.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703041913068_casterdatanotnull.cs" />
+    <Compile Include="Migrations\201703041913068_casterdatanotnull.Designer.cs">
+      <DependentUpon>201703041913068_casterdatanotnull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703061935574_testrelation.cs" />
+    <Compile Include="Migrations\201703061935574_testrelation.Designer.cs">
+      <DependentUpon>201703061935574_testrelation.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703061946533_testrelation1.cs" />
+    <Compile Include="Migrations\201703061946533_testrelation1.Designer.cs">
+      <DependentUpon>201703061946533_testrelation1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703081823348_charspells.cs" />
+    <Compile Include="Migrations\201703081823348_charspells.Designer.cs">
+      <DependentUpon>201703081823348_charspells.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703081854242_charspells2.cs" />
+    <Compile Include="Migrations\201703081854242_charspells2.Designer.cs">
+      <DependentUpon>201703081854242_charspells2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703081905523_charspells3.cs" />
+    <Compile Include="Migrations\201703081905523_charspells3.Designer.cs">
+      <DependentUpon>201703081905523_charspells3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703081906401_charspells4.cs" />
+    <Compile Include="Migrations\201703081906401_charspells4.Designer.cs">
+      <DependentUpon>201703081906401_charspells4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703091514073_done.cs" />
+    <Compile Include="Migrations\201703091514073_done.Designer.cs">
+      <DependentUpon>201703091514073_done.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705201718407_test.cs" />
+    <Compile Include="Migrations\201705201718407_test.Designer.cs">
+      <DependentUpon>201705201718407_test.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705201721405_SpellRequiretLevel_1.cs" />
+    <Compile Include="Migrations\201705201721405_SpellRequiretLevel_1.Designer.cs">
+      <DependentUpon>201705201721405_SpellRequiretLevel_1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707071511543_tradeoff.cs" />
+    <Compile Include="Migrations\201707071511543_tradeoff.Designer.cs">
+      <DependentUpon>201707071511543_tradeoff.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707071745354_tradeoff2.cs" />
+    <Compile Include="Migrations\201707071745354_tradeoff2.Designer.cs">
+      <DependentUpon>201707071745354_tradeoff2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707071748125_tradeoff3.cs" />
+    <Compile Include="Migrations\201707071748125_tradeoff3.Designer.cs">
+      <DependentUpon>201707071748125_tradeoff3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707071755032_tradeoff4.cs" />
+    <Compile Include="Migrations\201707071755032_tradeoff4.Designer.cs">
+      <DependentUpon>201707071755032_tradeoff4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707071802038_tradeoff5.cs" />
+    <Compile Include="Migrations\201707071802038_tradeoff5.Designer.cs">
+      <DependentUpon>201707071802038_tradeoff5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707071805046_tradeoff6.cs" />
+    <Compile Include="Migrations\201707071805046_tradeoff6.Designer.cs">
+      <DependentUpon>201707071805046_tradeoff6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707071826358_tradeoff7.cs" />
+    <Compile Include="Migrations\201707071826358_tradeoff7.Designer.cs">
+      <DependentUpon>201707071826358_tradeoff7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707081742542_tradeoff8.cs" />
+    <Compile Include="Migrations\201707081742542_tradeoff8.Designer.cs">
+      <DependentUpon>201707081742542_tradeoff8.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707081926016_tradeoff9.cs" />
+    <Compile Include="Migrations\201707081926016_tradeoff9.Designer.cs">
+      <DependentUpon>201707081926016_tradeoff9.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707081928390_tradeoff10.cs" />
+    <Compile Include="Migrations\201707081928390_tradeoff10.Designer.cs">
+      <DependentUpon>201707081928390_tradeoff10.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707081934287_tradeoff11.cs" />
+    <Compile Include="Migrations\201707081934287_tradeoff11.Designer.cs">
+      <DependentUpon>201707081934287_tradeoff11.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707121739526_UsableActionNull.cs" />
+    <Compile Include="Migrations\201707121739526_UsableActionNull.Designer.cs">
+      <DependentUpon>201707121739526_UsableActionNull.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707131201275_OwnEnchatments.cs" />
+    <Compile Include="Migrations\201707131201275_OwnEnchatments.Designer.cs">
+      <DependentUpon>201707131201275_OwnEnchatments.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707131802586_OwnMasterworked.cs" />
+    <Compile Include="Migrations\201707131802586_OwnMasterworked.Designer.cs">
+      <DependentUpon>201707131802586_OwnMasterworked.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707131806158_OwnMasterworked2.cs" />
+    <Compile Include="Migrations\201707131806158_OwnMasterworked2.Designer.cs">
+      <DependentUpon>201707131806158_OwnMasterworked2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707141031040_CanTakeAsEnchantment.cs" />
+    <Compile Include="Migrations\201707141031040_CanTakeAsEnchantment.Designer.cs">
+      <DependentUpon>201707141031040_CanTakeAsEnchantment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707141705327_Critmulti.cs" />
+    <Compile Include="Migrations\201707141705327_Critmulti.Designer.cs">
+      <DependentUpon>201707141705327_Critmulti.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707141729342_specialabireq.cs" />
+    <Compile Include="Migrations\201707141729342_specialabireq.Designer.cs">
+      <DependentUpon>201707141729342_specialabireq.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707141805551_specialabireq2.cs" />
+    <Compile Include="Migrations\201707141805551_specialabireq2.Designer.cs">
+      <DependentUpon>201707141805551_specialabireq2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707151502304_itemrequiresability.cs" />
+    <Compile Include="Migrations\201707151502304_itemrequiresability.Designer.cs">
+      <DependentUpon>201707151502304_itemrequiresability.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707151528541_itemrequiresability2.cs" />
+    <Compile Include="Migrations\201707151528541_itemrequiresability2.Designer.cs">
+      <DependentUpon>201707151528541_itemrequiresability2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707151613198_itemrequiresability3.cs" />
+    <Compile Include="Migrations\201707151613198_itemrequiresability3.Designer.cs">
+      <DependentUpon>201707151613198_itemrequiresability3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707151820491_skillReqMovement.cs" />
+    <Compile Include="Migrations\201707151820491_skillReqMovement.Designer.cs">
+      <DependentUpon>201707151820491_skillReqMovement.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707151835220_specialabilityonmatieral.cs" />
+    <Compile Include="Migrations\201707151835220_specialabilityonmatieral.Designer.cs">
+      <DependentUpon>201707151835220_specialabilityonmatieral.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707201128316_limitautocharges.cs" />
+    <Compile Include="Migrations\201707201128316_limitautocharges.Designer.cs">
+      <DependentUpon>201707201128316_limitautocharges.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707201241572_gmviewchar.cs" />
+    <Compile Include="Migrations\201707201241572_gmviewchar.Designer.cs">
+      <DependentUpon>201707201241572_gmviewchar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707211007594_conditions.cs" />
+    <Compile Include="Migrations\201707211007594_conditions.Designer.cs">
+      <DependentUpon>201707211007594_conditions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707211015530_test1.cs" />
+    <Compile Include="Migrations\201707211015530_test1.Designer.cs">
+      <DependentUpon>201707211015530_test1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707211352073_RoundActivateConditions.cs" />
+    <Compile Include="Migrations\201707211352073_RoundActivateConditions.Designer.cs">
+      <DependentUpon>201707211352073_RoundActivateConditions.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707231804346_Conditions2.cs" />
+    <Compile Include="Migrations\201707231804346_Conditions2.Designer.cs">
+      <DependentUpon>201707231804346_Conditions2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707231849064_limitautocharges2.cs" />
+    <Compile Include="Migrations\201707231849064_limitautocharges2.Designer.cs">
+      <DependentUpon>201707231849064_limitautocharges2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707281722259_NPCs.cs" />
+    <Compile Include="Migrations\201707281722259_NPCs.Designer.cs">
+      <DependentUpon>201707281722259_NPCs.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707281840262_NPCs2.cs" />
+    <Compile Include="Migrations\201707281840262_NPCs2.Designer.cs">
+      <DependentUpon>201707281840262_NPCs2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707281841101_NPCs3.cs" />
+    <Compile Include="Migrations\201707281841101_NPCs3.Designer.cs">
+      <DependentUpon>201707281841101_NPCs3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707281848453_NPCs4.cs" />
+    <Compile Include="Migrations\201707281848453_NPCs4.Designer.cs">
+      <DependentUpon>201707281848453_NPCs4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707291927110_NPCs5.cs" />
+    <Compile Include="Migrations\201707291927110_NPCs5.Designer.cs">
+      <DependentUpon>201707291927110_NPCs5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201707301112478_NPCs6.cs" />
+    <Compile Include="Migrations\201707301112478_NPCs6.Designer.cs">
+      <DependentUpon>201707301112478_NPCs6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708121110521_mapparts.cs" />
+    <Compile Include="Migrations\201708121110521_mapparts.Designer.cs">
+      <DependentUpon>201708121110521_mapparts.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708121207398_mapparts2.cs" />
+    <Compile Include="Migrations\201708121207398_mapparts2.Designer.cs">
+      <DependentUpon>201708121207398_mapparts2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708131737050_mapzoom.cs" />
+    <Compile Include="Migrations\201708131737050_mapzoom.Designer.cs">
+      <DependentUpon>201708131737050_mapzoom.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708131747553_mapscale.cs" />
+    <Compile Include="Migrations\201708131747553_mapscale.Designer.cs">
+      <DependentUpon>201708131747553_mapscale.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708131816283_locationToMap.cs" />
+    <Compile Include="Migrations\201708131816283_locationToMap.Designer.cs">
+      <DependentUpon>201708131816283_locationToMap.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201708231816054_LocationExtended.cs" />
+    <Compile Include="Migrations\201708231816054_LocationExtended.Designer.cs">
+      <DependentUpon>201708231816054_LocationExtended.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\CharacterModal\Character.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\BagItem.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\CalculatedAbilityScores.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\CalculatedString.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\CalculatedSkill.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\CharacterLoad.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\CalculatedStringOld.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\EquipedItem.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\EquipedItemViewDto.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\SearchItem.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\SearchSpell.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\SpellInSlot.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\TimeChangeRemoval.cs" />
+    <Compile Include="Models\CharacterModal\Parts\AbilityScore.cs" />
+    <Compile Include="Models\CharacterModal\Parts\ArmorClass.cs" />
+    <Compile Include="Models\CharacterModal\Parts\CarryingCapacity.cs" />
+    <Compile Include="Models\CharacterModal\Parts\ClassLevel.cs" />
+    <Compile Include="Models\CharacterModal\Parts\DamageRecuction.cs" />
+    <Compile Include="Models\CharacterModal\Parts\DamageTaken.cs" />
+    <Compile Include="Models\CharacterModal\Parts\Grapple.cs" />
+    <Compile Include="Models\CharacterModal\Parts\HitPoints.cs" />
+    <Compile Include="Models\CharacterModal\Parts\Initiativ.cs" />
+    <Compile Include="Models\CharacterModal\Parts\Inventory.cs" />
+    <Compile Include="Models\CharacterModal\Parts\OwnedItem.cs" />
+    <Compile Include="Models\CharacterModal\Parts\PhysicalAppearance.cs" />
+    <Compile Include="Models\CharacterModal\Parts\RoundActionTaken.cs" />
+    <Compile Include="Models\CharacterModal\Parts\RoundActivateAbilities.cs" />
+    <Compile Include="Models\CharacterModal\Parts\RoundActivateConditions.cs" />
+    <Compile Include="Models\CharacterModal\Parts\Saves.cs" />
+    <Compile Include="Models\CharacterModal\Parts\SkillRank.cs" />
+    <Compile Include="Models\CharacterModal\Parts\SpellBook.cs" />
+    <Compile Include="Models\CharacterModal\Parts\SpellResistance.cs" />
+    <Compile Include="Models\CharacterModal\Parts\SpellSlot.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\AttackItem.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\NonUsableAbility.cs" />
+    <Compile Include="Models\CharacterModal\HelperDtos\UsableAbility.cs" />
+    <Compile Include="Models\CharacterModal\Parts\TimeLimitUnitParsed.cs" />
+    <Compile Include="Models\Context\Configuration.cs" />
+    <Compile Include="Models\Context\ContextManager.cs" />
+    <Compile Include="Models\ControllerDto\Creator\ConditionDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\SpellCasterRequirementsDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\SpellDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Game\CharacterDto.cs" />
+    <Compile Include="Models\ControllerDto\Game\CharacterEquipmentDto.cs" />
+    <Compile Include="Models\ControllerDto\Game\CharacterOverviewDto.cs" />
+    <Compile Include="Models\ControllerDto\Game\CharacterSelectorDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\BonusDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\ClassDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\CharactorCreatorDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\ClassSaveRateDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\ClassAbilityByClassLevelDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\RaceAgeDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\ItemMaterialBonusDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\ItemMaterialDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\ItemDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\SpecialAbilityDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\RaceDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\SkillSynergiDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\DataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\LanguageDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Creator\SkillDataDto.cs" />
+    <Compile Include="Models\ControllerDto\Game\CharacterMeleeDto.cs" />
+    <Compile Include="Models\ControllerDto\Game\CharacterSpellDto.cs" />
+    <Compile Include="Models\ControllerDto\Game\CharacterEquipmentModifierDto.cs" />
+    <Compile Include="Models\ControllerDto\GM\Helper\JsonAtDto.cs" />
+    <Compile Include="Models\ControllerDto\GM\Helper\MapLocationDto.cs" />
+    <Compile Include="Models\ControllerDto\GM\HistoryDto.cs" />
+    <Compile Include="Models\ControllerDto\GM\LocationDto.cs" />
+    <Compile Include="Models\ControllerDto\GM\MapDto.cs" />
+    <Compile Include="Models\ControllerDto\GM\NpcDto.cs" />
+    <Compile Include="Models\CoreModal\Comparer\SemiNumericComparer.cs" />
+    <Compile Include="Models\CoreModal\DTO\BonusRef.cs" />
+    <Compile Include="Models\CoreModal\DTO\JsonpResult.cs" />
+    <Compile Include="Models\CoreModal\DTO\ObjectDescription.cs" />
+    <Compile Include="Models\CoreModal\DTO\UsableLimitControlData.cs" />
+    <Compile Include="Models\CoreModal\Extensions\DropDownListExtension.cs" />
+    <Compile Include="Models\CoreModal\Extensions\LinqExtension.cs" />
+    <Compile Include="Models\CoreModal\Extensions\ListBoxExtension.cs" />
+    <Compile Include="Models\CoreModal\Extensions\StringExtension.cs" />
+    <Compile Include="Models\CoreModal\Extensions\WebControlExtension.cs" />
+    <Compile Include="Models\Context\GameContext.cs" />
+    <Compile Include="Models\ControllerDto\GM\CharactersDto.cs" />
+    <Compile Include="Models\GmModal\GmCharacterView.cs" />
+    <Compile Include="Models\GmModal\World\History.cs" />
+    <Compile Include="Models\GmModal\World\LocationType.cs" />
+    <Compile Include="Models\GmModal\World\Map.cs" />
+    <Compile Include="Models\GmModal\World\MapPart.cs" />
+    <Compile Include="Models\GmModal\World\NPC.cs" />
+    <Compile Include="Models\GmModal\World\Location.cs" />
+    <Compile Include="Models\RulebookModal\AbstractClasses\ElementId.cs" />
+    <Compile Include="Models\RulebookModal\AbstractClasses\GameId.cs" />
+    <Compile Include="Models\RulebookModal\AbstractClasses\OrderedElementId.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Bonuses\BonusToAddClassProgression.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Classes\AbilityByClassLevel.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Conditions\Condition.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Items\ItemProficiency.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Items\ItemSlotRequirements.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Items\MaterialBonuses.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Races\AgeCategoryAtAge.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Saves\SaveRate.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Saves\SaveType.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Skills\SkillSynergi.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\SpecialAbilities\AutoApplyLimit.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\SpecialAbilities\BonusFromCharges.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\SpecialAbilities\SpecialAbility.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Ability.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Alligments\Alligment.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Bonuses\Bonus.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Bonuses\BonusApplyTo.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Bonuses\BonusToAdd.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Bonuses\BonusType.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Bonuses\Conditions\Condition.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Bonuses\Conditions\ConditionPretens.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Bonuses\Conditions\ConditionType.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Bonuses\GetBonusDto.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Classes\ClassBase.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Currency\Money.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Damages\Damage.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Damages\DamageType.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Dice\DiceRoll.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Dice\Die.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Dice\DieType.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Items\ItemBase.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Items\ItemMaterial.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Items\ItemSlot.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Languages\Language.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\PhysicalAppearances\Age.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\PhysicalAppearances\ImperialDistance.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\PhysicalAppearances\ImperialWeight.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\PhysicalAppearances\MetricDistance.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\PhysicalAppearances\Speed.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Races\Race.cs" />
+    <Compile Include="Models\CharacterModal\Parts\Save.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Skills\Skill.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\CastingTime.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\SpellsKnownPrLevel.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\DamageByCasterLevel.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\Spell.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\SpellBaseRange.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\SpellComponent.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\SpellDamage.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\SpellDescriptor.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\SpellKnown.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\SpellPrDay.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\SpellRequiretLevel.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\SpellSchool.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\SpellsPrLevel.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Spells\SpellTarget.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Time\Duration.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Time\DurationUnit.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Time\TimeLimitUnit.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Time\UsableAmount.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Time\UsableAmountClassProgression.cs" />
+    <Compile Include="Models\RulebookModal\BaseTypes\Time\UsableLimit.cs" />
+    <Compile Include="Models\RulebookModal\Configuration.cs" />
+    <Compile Include="Models\RulebookModal\Interfaces\IAddBonusable.cs" />
+    <Compile Include="Models\RulebookModal\Interfaces\IRoundable.cs" />
+    <Compile Include="Models\RulebookModal\Lists\LevelableList.cs" />
+    <Compile Include="Models\RulebookModal\Lists\MaxBonusList.cs" />
+    <Compile Include="Models\RulebookModal\Lists\RoundableDictonary.cs" />
+    <Compile Include="Models\RulebookModal\Lists\RoundableList.cs" />
+    <Compile Include="Models\RulebookModal\Rounds\Round.cs" />
+    <Compile Include="Models\RulebookModal\Rounds\RoundAction.cs" />
+    <Compile Include="Models\RulebookModal\Rulebook.cs" />
+    <Compile Include="Models\RulebookModal\Tools.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="0todo\todo.txt" />
+    <Content Include="Content\bootstrap-custom.css" />
+    <Content Include="Content\bootstrap-theme.css" />
+    <Content Include="Content\bootstrap-theme.min.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\chosen.min.css" />
+    <Content Include="Content\images\cancel.png" />
+    <Content Include="Content\images\cancel_%402X.png" />
+    <Content Include="Content\images\check.png" />
+    <Content Include="Content\images\check_%402X.png" />
+    <Content Include="Content\images\focus.png" />
+    <Content Include="Content\images\focus_%402X.png" />
+    <Content Include="Content\images\layers-2x.png" />
+    <Content Include="Content\images\layers.png" />
+    <Content Include="Content\images\marker-icon-2x.png" />
+    <Content Include="Content\images\marker-icon.png" />
+    <Content Include="Content\images\marker-shadow.png" />
+    <Content Include="Content\images\measure-control.png" />
+    <Content Include="Content\images\measure-control.svg" />
+    <Content Include="Content\images\rulers.png" />
+    <Content Include="Content\images\rulers_%402X.png" />
+    <Content Include="Content\images\spritesheet-2x.png" />
+    <Content Include="Content\images\spritesheet.png" />
+    <Content Include="Content\images\spritesheet.svg" />
+    <Content Include="Content\images\start.png" />
+    <Content Include="Content\images\start_%402X.png" />
+    <Content Include="Content\images\trash.png" />
+    <Content Include="Content\images\trash_%402X.png" />
+    <Content Include="Content\images\warrior.png" />
+    <Content Include="Content\images\warrior.svg" />
+    <Content Include="Content\jquery.atwho.css" />
+    <Content Include="Content\jquery.atwho.min.css" />
+    <Content Include="Content\leaflet-measure.css" />
+    <Content Include="Content\leaflet.bookmarks.min.css" />
+    <Content Include="Content\leaflet.css" />
+    <Content Include="Content\leaflet.draw.css" />
+    <Content Include="Content\leaflet.measurecontrol.css" />
+    <Content Include="Content\select2.css" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Global.asax" />
+    <Content Include="Content\Site.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\bootstrap-theme.min.css.map" />
+    <Content Include="Content\bootstrap-theme.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Content\bootstrap.css.map" />
+    <None Include="Properties\PublishProfiles\iis.pubxml" />
+    <None Include="Scripts\jquery-3.1.1.intellisense.js" />
+    <Content Include="Scripts\ajaxhelper.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\charactercreator.js" />
+    <Content Include="Scripts\characterready.js" />
+    <Content Include="Scripts\chosen.jquery.min.js" />
+    <Content Include="Scripts\chosen.proto.min.js" />
+    <Content Include="Scripts\bagitemready.js" />
+    <Content Include="Scripts\casterlevelready.js" />
+    <Content Include="Scripts\documentready.js" />
+    <Content Include="Scripts\images\cancel.png" />
+    <Content Include="Scripts\images\cancel_%402X.png" />
+    <Content Include="Scripts\images\check.png" />
+    <Content Include="Scripts\images\check_%402X.png" />
+    <Content Include="Scripts\images\focus.png" />
+    <Content Include="Scripts\images\focus_%402X.png" />
+    <Content Include="Scripts\images\layers-2x.png" />
+    <Content Include="Scripts\images\layers.png" />
+    <Content Include="Scripts\images\marker-icon-2x.png" />
+    <Content Include="Scripts\images\marker-icon.png" />
+    <Content Include="Scripts\images\marker-shadow.png" />
+    <Content Include="Scripts\images\measure-control.png" />
+    <Content Include="Scripts\images\measure-control.svg" />
+    <Content Include="Scripts\images\rulers.png" />
+    <Content Include="Scripts\images\rulers_%402X.png" />
+    <Content Include="Scripts\images\spritesheet-2x.png" />
+    <Content Include="Scripts\images\spritesheet.png" />
+    <Content Include="Scripts\images\spritesheet.svg" />
+    <Content Include="Scripts\images\start.png" />
+    <Content Include="Scripts\images\start_%402X.png" />
+    <Content Include="Scripts\images\trash.png" />
+    <Content Include="Scripts\images\trash_%402X.png" />
+    <Content Include="Scripts\jquery-3.1.1.js" />
+    <Content Include="Scripts\jquery-3.1.1.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.js" />
+    <Content Include="Scripts\jquery-3.1.1.slim.min.map" />
+    <Content Include="Scripts\jquery-3.1.1.min.map" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.atwho.js" />
+    <Content Include="Scripts\jquery.atwho.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-3.4.0.debug.js" />
+    <Content Include="Scripts\knockout-3.4.0.js" />
+    <Content Include="Scripts\leaflet-measure.min.js" />
+    <Content Include="Scripts\Leaflet.Bookmarks.min.js" />
+    <Content Include="Scripts\leaflet.draw.js" />
+    <Content Include="Scripts\leaflet.js" />
+    <Content Include="Scripts\leaflet.measurecontrol.js" />
+    <Content Include="Scripts\leaflet.measurecontrol.min.js" />
+    <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\rastercoords.js" />
+    <Content Include="Scripts\select2.full.min.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Web.config" />
+    <Content Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </Content>
+    <Content Include="Views\Web.config" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\Shared\GameLayoutPage.cshtml" />
+    <Content Include="Views\Shared\Home.cshtml" />
+    <Content Include="Views\Shared\Creator\Creator.cshtml" />
+    <Content Include="Views\Shared\CreatorLayoutPage.cshtml" />
+    <Content Include="Views\Shared\Creator\Language.cshtml" />
+    <Content Include="Views\Shared\Creator\Skill.cshtml" />
+    <Content Include="Views\Shared\Creator\SkillSynergi.cshtml" />
+    <Content Include="Views\Shared\Creator\Bonus.cshtml" />
+    <Content Include="Views\Shared\Creator\Class.cshtml" />
+    <Content Include="Views\Shared\Creator\Race.cshtml" />
+    <Content Include="Views\Shared\Creator\SpecialAbility.cshtml" />
+    <Content Include="Views\Shared\Creator\Item.cshtml" />
+    <Content Include="Views\Shared\Creator\ItemMaterial.cshtml" />
+    <Content Include="Views\Shared\Creator\ItemMaterialBonus.cshtml" />
+    <Content Include="Views\Shared\Creator\CharacterCreator.cshtml" />
+    <Content Include="Views\Shared\Creator\ClassSaveRate.cshtml" />
+    <Content Include="Views\Shared\Creator\AbilityByClassLevel.cshtml" />
+    <Content Include="Views\Shared\Creator\RaceAge.cshtml" />
+    <Content Include="Views\Shared\Game\CharacterSelector.cshtml" />
+    <Content Include="Views\Shared\Game\CharacterOverview.cshtml" />
+    <Content Include="Views\Shared\Game\CharacterLayoutPage.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\Description.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\ActionsLeft.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\Abilities.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\Saves.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\HP.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\Speed.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\ArmorClass.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\BaseAttack.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\Initiativ.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\Grapple.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\Skills.cshtml" />
+    <Content Include="Views\Shared\Game\CharacterEquipment.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\BagItems.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\CharacterLoad.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\EquipedItems.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\EquipedItem.cshtml" />
+    <Content Include="Views\Shared\Game\CharacterCombat.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\UsableAbilities.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\Wealth.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\Attacks.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\OtherEquipedItems.cshtml" />
+    <Content Include="Views\Shared\Game\CharacterSpell.cshtml" />
+    <Content Include="Views\Shared\Game\Partial\CasterLevel.cshtml" />
+    <Content Include="Views\Shared\Creator\Spell.cshtml" />
+    <Content Include="Views\Shared\Creator\SpellCasterRequirements.cshtml" />
+    <Content Include="Views\Shared\GM\GM.cshtml" />
+    <Content Include="Views\Shared\GM\CharacterCard.cshtml" />
+    <Content Include="Views\Shared\GM\GMLayoutPage.cshtml" />
+    <Content Include="Views\Shared\Game\CharacterEquipmentModifier.cshtml" />
+    <Content Include="Views\Shared\Creator\Condition.cshtml" />
+    <Content Include="Views\Shared\GM\NPC.cshtml" />
+    <Content Include="Views\Shared\GM\History.cshtml" />
+    <Content Include="Views\Shared\GM\Location.cshtml" />
+    <Content Include="Views\Shared\GM\Partial\ViewHistory.cshtml" />
+    <Content Include="Views\Shared\GM\Map.cshtml" />
+    <Content Include="Views\Shared\GM\CreateMap.cshtml" />
+    <Content Include="Views\Shared\GM\Partial\TravelTime.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Models\CoreModal\Interface\" />
+    <Folder Include="Models\RulebookModal\BonusTypes\" />
+    <Folder Include="Views\Shared\Creator\Partial\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201701130955031_1.resx">
+      <DependentUpon>201701130955031_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701131217012_2.resx">
+      <DependentUpon>201701131217012_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701131222024_3.resx">
+      <DependentUpon>201701131222024_3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701131330056_4.resx">
+      <DependentUpon>201701131330056_4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701131336169_5.resx">
+      <DependentUpon>201701131336169_5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701141141497_6.resx">
+      <DependentUpon>201701141141497_6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701141154011_7.resx">
+      <DependentUpon>201701141154011_7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701141207446_8.resx">
+      <DependentUpon>201701141207446_8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701141923373_10.resx">
+      <DependentUpon>201701141923373_10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701151909284_11.resx">
+      <DependentUpon>201701151909284_11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701161919486_12.resx">
+      <DependentUpon>201701161919486_12.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701161930034_13.resx">
+      <DependentUpon>201701161930034_13.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701171922275_14.resx">
+      <DependentUpon>201701171922275_14.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701251909132_t1.resx">
+      <DependentUpon>201701251909132_t1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701261525121_t2.resx">
+      <DependentUpon>201701261525121_t2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701261535136_t3.resx">
+      <DependentUpon>201701261535136_t3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201701281929250_t31.resx">
+      <DependentUpon>201701281929250_t31.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702021551191_t0202_1.resx">
+      <DependentUpon>201702021551191_t0202_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702021555029_t0202_2.resx">
+      <DependentUpon>201702021555029_t0202_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702051223358_tet.resx">
+      <DependentUpon>201702051223358_tet.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702051250423_dmgdto.resx">
+      <DependentUpon>201702051250423_dmgdto.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702141737461_io1.resx">
+      <DependentUpon>201702141737461_io1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702141806374_io2.resx">
+      <DependentUpon>201702141806374_io2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702190850443_aaat.resx">
+      <DependentUpon>201702190850443_aaat.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702190900350_add3.resx">
+      <DependentUpon>201702190900350_add3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702191014526_adddd1.resx">
+      <DependentUpon>201702191014526_adddd1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702191029409_chargesindb.resx">
+      <DependentUpon>201702191029409_chargesindb.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702191100069_testt.resx">
+      <DependentUpon>201702191100069_testt.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702201850059_ilw1.resx">
+      <DependentUpon>201702201850059_ilw1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702231457185_itemOwnScore.resx">
+      <DependentUpon>201702231457185_itemOwnScore.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703031951519_casterType.resx">
+      <DependentUpon>201703031951519_casterType.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703041851242_casterdata.resx">
+      <DependentUpon>201703041851242_casterdata.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703041913068_casterdatanotnull.resx">
+      <DependentUpon>201703041913068_casterdatanotnull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703061935574_testrelation.resx">
+      <DependentUpon>201703061935574_testrelation.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703061946533_testrelation1.resx">
+      <DependentUpon>201703061946533_testrelation1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703081823348_charspells.resx">
+      <DependentUpon>201703081823348_charspells.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703081854242_charspells2.resx">
+      <DependentUpon>201703081854242_charspells2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703081905523_charspells3.resx">
+      <DependentUpon>201703081905523_charspells3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703081906401_charspells4.resx">
+      <DependentUpon>201703081906401_charspells4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703091514073_done.resx">
+      <DependentUpon>201703091514073_done.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705201718407_test.resx">
+      <DependentUpon>201705201718407_test.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705201721405_SpellRequiretLevel_1.resx">
+      <DependentUpon>201705201721405_SpellRequiretLevel_1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707071511543_tradeoff.resx">
+      <DependentUpon>201707071511543_tradeoff.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707071745354_tradeoff2.resx">
+      <DependentUpon>201707071745354_tradeoff2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707071748125_tradeoff3.resx">
+      <DependentUpon>201707071748125_tradeoff3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707071755032_tradeoff4.resx">
+      <DependentUpon>201707071755032_tradeoff4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707071802038_tradeoff5.resx">
+      <DependentUpon>201707071802038_tradeoff5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707071805046_tradeoff6.resx">
+      <DependentUpon>201707071805046_tradeoff6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707071826358_tradeoff7.resx">
+      <DependentUpon>201707071826358_tradeoff7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707081742542_tradeoff8.resx">
+      <DependentUpon>201707081742542_tradeoff8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707081926016_tradeoff9.resx">
+      <DependentUpon>201707081926016_tradeoff9.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707081928390_tradeoff10.resx">
+      <DependentUpon>201707081928390_tradeoff10.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707081934287_tradeoff11.resx">
+      <DependentUpon>201707081934287_tradeoff11.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707121739526_UsableActionNull.resx">
+      <DependentUpon>201707121739526_UsableActionNull.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707131201275_OwnEnchatments.resx">
+      <DependentUpon>201707131201275_OwnEnchatments.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707131802586_OwnMasterworked.resx">
+      <DependentUpon>201707131802586_OwnMasterworked.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707131806158_OwnMasterworked2.resx">
+      <DependentUpon>201707131806158_OwnMasterworked2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707141031040_CanTakeAsEnchantment.resx">
+      <DependentUpon>201707141031040_CanTakeAsEnchantment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707141705327_Critmulti.resx">
+      <DependentUpon>201707141705327_Critmulti.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707141729342_specialabireq.resx">
+      <DependentUpon>201707141729342_specialabireq.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707141805551_specialabireq2.resx">
+      <DependentUpon>201707141805551_specialabireq2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707151502304_itemrequiresability.resx">
+      <DependentUpon>201707151502304_itemrequiresability.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707151528541_itemrequiresability2.resx">
+      <DependentUpon>201707151528541_itemrequiresability2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707151613198_itemrequiresability3.resx">
+      <DependentUpon>201707151613198_itemrequiresability3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707151820491_skillReqMovement.resx">
+      <DependentUpon>201707151820491_skillReqMovement.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707151835220_specialabilityonmatieral.resx">
+      <DependentUpon>201707151835220_specialabilityonmatieral.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707201128316_limitautocharges.resx">
+      <DependentUpon>201707201128316_limitautocharges.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707201241572_gmviewchar.resx">
+      <DependentUpon>201707201241572_gmviewchar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707211007594_conditions.resx">
+      <DependentUpon>201707211007594_conditions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707211015530_test1.resx">
+      <DependentUpon>201707211015530_test1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707211352073_RoundActivateConditions.resx">
+      <DependentUpon>201707211352073_RoundActivateConditions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707231804346_Conditions2.resx">
+      <DependentUpon>201707231804346_Conditions2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707231849064_limitautocharges2.resx">
+      <DependentUpon>201707231849064_limitautocharges2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707281722259_NPCs.resx">
+      <DependentUpon>201707281722259_NPCs.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707281840262_NPCs2.resx">
+      <DependentUpon>201707281840262_NPCs2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707281841101_NPCs3.resx">
+      <DependentUpon>201707281841101_NPCs3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707281848453_NPCs4.resx">
+      <DependentUpon>201707281848453_NPCs4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707291927110_NPCs5.resx">
+      <DependentUpon>201707291927110_NPCs5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201707301112478_NPCs6.resx">
+      <DependentUpon>201707301112478_NPCs6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708121110521_mapparts.resx">
+      <DependentUpon>201708121110521_mapparts.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708121207398_mapparts2.resx">
+      <DependentUpon>201708121207398_mapparts2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708131737050_mapzoom.resx">
+      <DependentUpon>201708131737050_mapzoom.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708131747553_mapscale.resx">
+      <DependentUpon>201708131747553_mapscale.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708131816283_locationToMap.resx">
+      <DependentUpon>201708131816283_locationToMap.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201708231816054_LocationExtended.resx">
+      <DependentUpon>201708231816054_LocationExtended.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:7085/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Import Project="..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" />
+  <Target Name="EnsureBclBuildImported" BeforeTargets="BeforeBuild" Condition="'$(BclBuildImported)' == ''">
+    <Error Condition="!Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=317567." HelpKeyword="BCLBUILD2001" />
+    <Error Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.14\tools\Microsoft.Bcl.Build.targets')" Text="The build restored NuGet packages. Build the project again to include these packages in the build. For more information, see http://go.microsoft.com/fwlink/?LinkID=317568." HelpKeyword="BCLBUILD2002" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

@@ -1,0 +1,28 @@
+﻿@using RPG.Models.RulebookModal.BaseTypes
+@model RPG.Models.CharacterModal.Character
+@{ var abis = Model.GetUsableAbilities().OrderBy(x => x.Name);}
+@{ var otherAbis = Model.GetOtherAbilities().OrderBy(x => x.Name);}
+
+
+<div class="row">
+    <h3>Aktivateable abilities</h3>
+    <div class="list-group">
+        @foreach (var abi in abis)
+        {
+            <a href="javascript:void(0);" @Html.Raw(abi.IsCurrentlyUseable ? "onclick=\"TriggerAbilityOneCharge('"+@Model.ID+"','"+@abi.Id+"')\"" : "") class="list-group-item pop @Html.Raw(abi.IsActive ? "active" : "") @Html.Raw(!abi.IsCurrentlyUseable ? "disabled" : "")" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@abi.Description">@abi.Name</a>
+        }
+    </div>
+</div>
+<div class="row">
+    <h3>Other abilities</h3>
+    <div class="list-group">
+        @foreach (var abi in otherAbis)
+        {
+            <button class="list-group-item pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@abi.Description">@abi.Name</button>
+        }
+    </div>
+</div>
+
+<div class="row">
+    <br/><br />
+</div>

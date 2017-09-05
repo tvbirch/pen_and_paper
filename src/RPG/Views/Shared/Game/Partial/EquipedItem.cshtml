@@ -1,0 +1,35 @@
+﻿@using RPG.Models.CharacterModal.HelperDtos
+@using RPG.Models.CharacterModal.Parts
+@model RPG.Models.CharacterModal.HelperDtos.EquipedItemViewDto
+
+@{
+    var items = Model.Item.Where(x => x.Slot.Any(y => y.Requirement == Model.Slot));
+    EquipedItem item;
+    if (Model.SkipFirst.GetValueOrDefault())
+    {
+        item = items.Skip(1).Take(1).FirstOrDefault();
+    }
+    else
+    {
+        item = items.FirstOrDefault();
+    }
+}
+
+
+<table style="width:100%">
+    <tr style="width:100%">
+        <td style="border-bottom: 1px solid #000; text-align: center; font-weight: bold;">@Model.Slot</td>
+    </tr>
+    <tr>
+        <td style="text-align: center;">
+            @if (item == null)
+            {
+                <a style="width: 100%;" href="javascript:void(0);" onclick="$('#equipItemModal').modal('show');" class="btn btn-default">Empty</a>
+            }
+            else
+            {
+                <a style="width: 100%;" href="javascript:void(0);" onclick="DequipItem('@Model.CharacterId','@item.Id');" class="btn btn-default pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@item.Description">@item.Name</a>
+            }
+        </td>
+    </tr>
+</table>

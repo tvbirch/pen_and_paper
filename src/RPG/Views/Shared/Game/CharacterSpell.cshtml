@@ -1,0 +1,16 @@
+﻿@model RPG.Models.ControllerDto.Game.CharacterSpellDto
+
+@{
+    ViewBag.Title = "CharacterSpell";
+    Layout = "~/Views/Shared/Game/CharacterLayoutPage.cshtml";
+}
+
+<div class="col-xs-12 col-md-10">
+    <div class="row">
+        @Html.Partial("~/Views/Shared/Game/Partial/CasterLevel.cshtml",Model.Character)
+    </div>
+</div>
+    
+<div class="col-xs-12 col-md-2">
+    @Html.Partial("~/Views/Shared/Game/Partial/UsableAbilities.cshtml",Model.Character)
+</div>

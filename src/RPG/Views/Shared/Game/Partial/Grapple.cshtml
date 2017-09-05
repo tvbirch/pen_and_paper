@@ -1,0 +1,12 @@
+﻿@model RPG.Models.CharacterModal.Character
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width:100%">Grapple</th>
+        </tr>
+    </thead>
+    <tr>
+        <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetGrappleString().GetCalculation())">@Model.GetGrappleString().GetValue()</th>
+    </tr>
+</table>

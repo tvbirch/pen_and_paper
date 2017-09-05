@@ -1,0 +1,12 @@
+﻿@model RPG.Models.CharacterModal.Character
+
+<div class="row">
+    <h4>Possible actoins left</h4>
+</div>
+<div class="row">
+    @foreach (var act in Model.GetPossibleActions())
+    {
+        var link = string.Format("AjaxServicePostReload('CharacterAction','TakeAction',{{ id : '{0}', action : {1} }});", Model.ID, (int)act);
+        <button class="btn btn-primary btn-sm" onclick="@Html.Raw(link)">@act.ToString()</button>
+    }
+</div>

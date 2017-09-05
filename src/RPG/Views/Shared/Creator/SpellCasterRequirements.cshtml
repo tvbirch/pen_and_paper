@@ -1,0 +1,61 @@
+﻿@using RPG.Controllers.Common
+@using RPG.Controllers.Extenstions
+@model RPG.Models.ControllerDto.Creator.SpellCasterRequirementsDataDto
+
+@{
+    ViewBag.Title = "SpellCasterRequirements";
+    Layout = "~/Views/Shared/CreatorLayoutPage.cshtml";
+}
+
+@using (Html.BeginForm("Save", "SpellCasterRequirements", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-12 col-md-8">
+                    <div class="form-group">
+                        <div class="row">
+                            <h2>Caster requirements for '@Model.SelectedItem.Name'</h2>
+                            @Html.HiddenFor(m => m.SelectedItem.ID)
+                            @Html.LabelForRequired(m => m.SelectedRequirement.CasterLevel,"Level:") 
+                            @Html.TextBoxFor(m => Model.SelectedRequirement.CasterLevel, HtmlConfiguration.TextBoxFor_Number) 
+                            @Html.ValidationMessageFor(m => m.SelectedRequirement.CasterLevel)
+                        </div>
+                        <div class="row">
+                            <label>Allignment:</label>
+                             @Html.DropDownListFor(m => m.ClassGuid, new SelectList(Model.Classes, "ID", "Name", Model.ClassGuid), HtmlConfiguration.ListBoxFor_SelectSingle)
+                        </div>
+                    </div>
+                    <button class="btn btn-primary">Save</button>
+                    <a class="btn btn-primary" href="@Url.Action("Index", new
+                                                     {
+                                                         id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null,
+                                                         crId = Guid.Empty,
+                                                     })">New</a>
+                    @Html.ActionLink("Delete","Delete","SpellCasterRequirements",new
+                    {
+                        id = Model != null && Model.ClassGuid  != null ? Model.ClassGuid : (Guid?)null,
+                        crId = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null,
+                                                         
+                    },HtmlConfiguration.ActionLink_Button)
+                </div>
+                <div class="col-xs-12 col-md-3 col-md-offset-1">
+                    <h2>Existing requirements</h2>
+                    <div class="row">
+                        <div class="col-xs-12 btn-group">
+                            @if (Model != null && Model.SpellRequirement != null)
+                            {
+                                foreach (var spell in Model.SpellRequirement)
+                                {
+                                    <a class="btn btn-primary btn-block" href="@Url.Action("Index", new { 
+                                                                                   id = spell.Spell.ID, 
+                                                                                   crId = spell.ID})">@spell.CasterClass.Name - @spell.CasterLevel</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

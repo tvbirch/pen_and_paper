@@ -1,0 +1,32 @@
+﻿body { 
+    padding-top: 65px; 
+}
+.width100 {
+    width: 100%   
+}
+.field-validation-error
+{
+    color: red;
+}
+
+.validation-summary-errors
+{
+    color: Red;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+     -khtml-user-select: none; /* Konqueror */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  not supported by any browser */
+}
+
+.borderless td, .borderless th {
+    border: none;
+}
+.popover {
+    max-width:552px;
+}

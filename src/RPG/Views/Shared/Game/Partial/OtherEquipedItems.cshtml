@@ -1,0 +1,58 @@
+﻿@using RPG.Models.CharacterModal.HelperDtos
+@using RPG.Models.RulebookModal.BaseTypes.Items
+@model RPG.Models.CharacterModal.Character
+
+@{
+    var items = Model.GetEquipedItems();
+    var equipedItemsLeft = new List<EquipedItem>();
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.Ring)).Skip(2));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.Arms)).Skip(1));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.Body)).Skip(1));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.Face)).Skip(1));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.Feet)).Skip(1));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.Hands)).Skip(1));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.Head)).Skip(1));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.Shoulder)).Skip(1));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.Throat)).Skip(1));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.Torso)).Skip(1));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.Waist)).Skip(1));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.WeaponHand)).Skip(2));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.Misc)));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.ArmorCrystal)));
+    equipedItemsLeft.AddRange(items.Where(x => x.Slot.Any(y => y.Requirement == ItemSlotRequirement.WeaponCrystal)));
+}
+<h2>Other equiped items</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width:30%">Name</th>
+            <th style="width:10%">Slot</th>
+            <th style="width:10%">Dequip</th>
+            <th style="width:30%">Name</th>
+            <th style="width:10%">Slot</th>
+            <th style="width:10%">Dequip</th>
+        </tr>
+    </thead>
+    @for (var i = 0; i < equipedItemsLeft.Count; i += 2)
+    {
+        var item1 = equipedItemsLeft[i];
+        var item2 = equipedItemsLeft.Count > i + 1 ? equipedItemsLeft[i + 1] : null;
+        <tr>
+            <td class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@item1.Description">@item1.Name</td>
+            <td>@item1.Slot.Select(x => x.Requirement.ToString()).Aggregate((k, j) => k + ", " + j)</td>
+            <td><a style="width: 100%;" href="javascript:void(0);" onclick="DequipItem('@Model.ID','@item1.Id');" class="btn btn-default">Dequip</a></td>
+         @if (item2 != null)
+         {
+            <td class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@item2.Description">@item2.Name</td>
+            <td>@item2.Slot.Select(x => x.Requirement.ToString()).Aggregate((k, j) => k + ", " + j)</td>
+            <td><a style="width: 100%;" href="javascript:void(0);" onclick="DequipItem('@Model.ID','@item2.Id');" class="btn btn-default">Dequip</a></td>
+         }
+         else
+         {
+            <td><p></p></td>
+            <td><p></p></td>
+            <td><p></p></td>
+         } 
+        </tr>
+    }
+</table>

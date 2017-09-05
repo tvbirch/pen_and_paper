@@ -1,0 +1,32 @@
+﻿@using RPG.Controllers.Common
+@using RPG.Controllers.Extenstions
+@using RPG.Models.RulebookModal.AbstractClasses
+@model RPG.Models.ControllerDto.Creator.LanguageDataDto
+
+@{
+    ViewBag.Title = "Language";
+    Layout = "~/Views/Shared/CreatorLayoutPage.cshtml";
+}
+@using(Html.BeginForm("Save","Language",FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Add language</h2>
+            <div class="form-group">
+                <div class="row">
+                    @Html.HiddenFor(m => m.SelectedItem.ID)
+                    @Html.LabelForRequired(m => m.SelectedItem.Name) 
+                    @Html.TextBoxFor(m => m.SelectedItem.Name,HtmlConfiguration.TextBoxFor_Text)
+                    @Html.ValidationMessageFor(m => m.SelectedItem.Name)
+                </div>
+                <div class="row">
+                <label>Description:</label>
+                    @Html.TextAreaFor(m => m.SelectedItem.Description,HtmlConfiguration.TextBoxFor_Text)
+                </div>
+            </div>
+            <button class="btn btn-primary">Save</button>
+            <a class="btn btn-primary" href="@Url.Action("Index", new { id = (Guid?)null })">New</a>
+            @Html.ActionLink("Delete","Delete","Language",new { id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null},HtmlConfiguration.ActionLink_Button)
+        </div>
+    </div>
+}

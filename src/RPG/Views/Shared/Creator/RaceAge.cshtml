@@ -1,0 +1,64 @@
+﻿@using RPG.Controllers.Common
+@using RPG.Controllers.Extenstions
+@using RPG.Models.RulebookModal
+@model RPG.Models.ControllerDto.Creator.RaceAgeDataDto
+
+@{
+    ViewBag.Title = "RaceAge";
+    Layout = "~/Views/Shared/CreatorLayoutPage.cshtml";
+}
+
+
+@using (Html.BeginForm("Save", "RaceAge", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-12 col-md-8">
+                    <div class="form-group">
+                        <div class="row">
+                            <h2>Race Age '@Model.SelectedItem.Name'</h2>
+                            @Html.HiddenFor(m => m.SelectedItem.ID)
+                            @Html.HiddenFor(m => m.AgeCategoryAtAge.ID)
+                            @Html.LabelForRequired(m => m.AgeCategoryAtAge.Age,"Age:") 
+                            @Html.TextBoxFor(m => m.AgeCategoryAtAge.Age,HtmlConfiguration.TextBoxFor_Number)
+                            @Html.ValidationMessageFor(m => m.AgeCategoryAtAge.Age)
+                        </div>
+                        <div class="row">
+                            <label>Category:</label>
+                            @Html.DropDownListFor(a => a.AgeCategoryAtAge.Category, Tools.AgeCategoryAsSelectList(), HtmlConfiguration.DropDownListFor)
+                        </div>
+                    </div>
+                    <button class="btn btn-primary">Save</button>
+                    <a class="btn btn-primary" href="@Url.Action("Index", new
+                                                     {
+                                                         id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null,
+                                                         ageId = Guid.Empty,
+                                                     })">New</a>
+                    @Html.ActionLink("Delete","Delete","ClassAbilityByClassLevel",new
+                    {
+                        id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null,
+                        ageId = Model != null && Model.AgeCategoryAtAge != null ? Model.AgeCategoryAtAge.ID : (Guid?)null,
+                                                         
+                    },HtmlConfiguration.ActionLink_Button)
+                </div>
+                <div class="col-xs-12 col-md-3 col-md-offset-1">
+                    <h2>Existing abilities</h2>
+                    <div class="row">
+                        <div class="col-xs-12 btn-group">
+                            @if (Model != null && Model.RaceAges != null)
+                            {
+                                foreach (var syn in Model.RaceAges)
+                                {
+                                    <a class="btn btn-primary btn-block" href="@Url.Action("Index", new { 
+                                                                                   id = Model != null && Model.SelectedItem !=null ? Model.SelectedItem.ID : (Guid?)null, 
+                                                                                   ageId = @syn.ID })">@syn.Name</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

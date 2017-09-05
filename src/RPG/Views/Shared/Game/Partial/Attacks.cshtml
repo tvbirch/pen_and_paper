@@ -1,0 +1,39 @@
+﻿@model RPG.Models.CharacterModal.Character
+<h2>Attacks</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width:20%">Attack</th>
+            <th style="width:20%">Attack bonus</th>
+            <th style="width:20%">Damage</th>
+            <th style="width:14%">Critical</th>
+            <th style="width:13%">Range</th>
+            <th style="width:13%">Type</th>
+        </tr>
+    </thead>
+    @foreach (var attack in Model.GetAttacks())
+    {
+        <tr>
+            <td><p style="margin:0px; padding:0px; height:100%; width:100%"><button onclick="$('#itemUsedForAttack').val('@Html.Raw(attack.Id)');$('#attackTargetModal').modal('show');" class="btn btn-default attackTargetModalMoveClass {8}" style="margin:0px; padding:0px; height:100%; width:100%" @Html.Raw(attack.CanCurrentlyAttack ? "" : "disabled=\"disabled\"")>@attack.Name</button></p></td>
+            <td class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@attack.AttackBonus.GetCalculation())">@attack.AttackBonus.GetValue()</td>
+            <td class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@attack.Damage.GetCalculation())">@attack.Damage.GetValue()</td>
+            <td>@attack.CriticalRange</td>
+            <td>@attack.Range</td>
+            <td>@attack.AttackType</td>
+        </tr>
+    }
+</table>
+<div id="attackTargetModal" style="width:156px; height:80px" class="modal fade">
+    <div style="width:156px; margin:0px;" class="modal-dialog">
+        <div class="modal-content">
+            <input type="hidden" id="itemUsedForAttack" name="itemUsedForAttack" value=""/>
+		    <div>
+			    <button type="button" style="width:75px" class="btn btn-danger" onclick="attackWithWeapon($('#itemUsedForAttack').val(),'@Html.Raw(Model.ID)',null,0)">Miss</button>
+			    <button type="button" style="width:75px" class="btn btn-success" onclick="attackWithWeapon($('#itemUsedForAttack').val(),'@Html.Raw(Model.ID)',null,1)">Hit</button>
+		        <br/>
+		        <button type="button" style="width:75px" class="btn btn-default" onclick="attackWithWeapon($('#itemUsedForAttack').val(),'@Html.Raw(Model.ID)',null,2)">Hit multiple</button>
+			    <button type="button" style="width:75px" class="btn btn-default" data-dismiss="modal">Cancel</button>
+		    </div>
+	    </div>
+    </div>
+</div>

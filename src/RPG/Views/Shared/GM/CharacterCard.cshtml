@@ -1,0 +1,94 @@
+﻿@model RPG.Models.CharacterModal.Character
+
+<div class="row">
+    <div class="col-xs-12">
+        @if (Model == null)
+        {
+            <div class="row">
+                <h3>Select character</h3>
+            </div>
+        }
+        else
+        {
+            <div class="row">
+                <h3>@Model.Name</h3>
+            </div>
+            <div class="row">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th style="width:25%">AC</th>
+                            <th style="width:25%">Touch AC</th>
+                            <th style="width:25%">Flat Footed AC</th>
+                            <th style="width:25%">Damage reduction</th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetArmorClass().GetCalculation())">@Model.GetArmorClass().GetValue()</th>
+                        <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetTouchArmorClass().GetCalculation())">@Model.GetTouchArmorClass().GetValue()</th>
+                        <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetFlettFootedArmorClass().GetCalculation())">@Model.GetFlettFootedArmorClass().GetValue()</th>
+                        <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetDamageReduction().GetCalculation())">@Model.GetDamageReduction().GetValue()</th>
+                    </tr>
+                </table>
+            </div>
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:20%">Ability</th>
+                                    <th style="width:20%">Score</th>
+                                </tr>
+                            </thead>
+                            @foreach(var a in Model.GetAbilities())
+                            {
+                                <tr>
+                                    <th>@a.Name</th>
+                                    <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@a.Current.GetCalculation())">@a.Current.GetValue()</th>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:33%">Max hp</th>
+                                    <th style="width:34%">Current</th>
+                                    <th style="width:33%">Nonlethal</th>
+                                </tr>
+                            </thead>
+                            <tr>
+                                <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetMaxHp().GetCalculation())">@Model.GetMaxHp().GetValue()</th>
+                                <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetCurrentHp().GetCalculation())">@Model.GetCurrentHp().GetValue()</th>
+                                <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetNonlethalDamage().GetCalculation())">@Model.GetNonlethalDamage().GetValue()</th>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th style="width:50%">Saving throw</th>
+                                    <th style="width:50%">Total</th>
+                                </tr>
+                            </thead>
+                            @foreach (var save in Model.GetSavingThrows())
+                            {
+                                <tr>
+                                    <th>@save.Name</th>
+                                    <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@save.SaveBonus.GetCalculation())">@save.SaveBonus.GetValue()</th>
+                                </tr>   
+                            }
+                        </table>
+                    </div>
+                
+                </div>
+            </div>
+        }
+        
+    </div>
+</div>

@@ -1,0 +1,46 @@
+﻿namespace RPG.Models.RulebookModal.BaseTypes.Bonuses.Conditions
+{
+    //http://www.d20srd.org/srd/conditionSummary.htm
+    public enum ConditionType
+    {
+        AbilityDamaged,
+        AbilityDrained,
+        Blinded,
+        BlownAway,
+        Checked,
+        Confused,
+        Cowering,
+        Dazed,
+        Dazzled,
+        Dead,
+        Deafened,
+        Disabled,
+        Dying,
+        EnergyDrained,
+        Entangled,
+        Exhausted,
+        Fascinated,
+        Fatigued,
+        FlatFooted,
+        Frightened,
+        Grappling,
+        Helpless,
+        Incorporeal,
+        Invisible,
+        KnockedDown,
+        Nauseated,
+        Panicked,
+        Paralyzed,
+        Petrified,
+        Pinned,
+        Prone,
+        Shaken,
+        Sickened,
+        Stable,
+        Staggered,
+        Stunned,
+        Turned,
+        Unconscious,
+    }
+    
+}

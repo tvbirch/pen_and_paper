@@ -1,0 +1,71 @@
+﻿@using RPG.Controllers.Common
+@using RPG.Controllers.Extenstions
+@model RPG.Models.ControllerDto.Creator.SkillSynergiDataDto
+
+@{
+    ViewBag.Title = "Skill Synergi";
+    Layout = "~/Views/Shared/CreatorLayoutPage.cshtml";
+}
+
+@using (Html.BeginForm("Save", "SkillSynergi", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="row">
+                <div class="col-xs-12 col-md-8">
+                    <div class="form-group">
+                        <div class="row">
+                            <h2>Add synergies that apply to '@Model.SelectedSkill.Name'</h2>
+                            @Html.HiddenFor(m => m.SelectedSkill.ID)
+                            @Html.HiddenFor(m => m.SelectedItem.ID)
+                            @Html.LabelForRequired(m => m.SelectedItem.Name) 
+                            @Html.TextBoxFor(m => m.SelectedItem.Name,HtmlConfiguration.TextBoxFor_Text)
+                            @Html.ValidationMessageFor(m => m.SelectedItem.Name)
+                        </div>
+                        <div class="row">
+                            <label>Description:</label>
+                            @Html.TextAreaFor(m => m.SelectedItem.Description,HtmlConfiguration.TextBoxFor_Text)
+                        </div>
+                        <div class="row">
+                            <label>Skill synergi from:</label>
+                            @Html.DropDownListFor(m => m.SelectedItem.SynergiFromId,
+                            new SelectList(Model.Skills, "ID", "Name",Model != null && Model.SelectedItem != null ? Model.SelectedItem.SynergiFromId : (Guid?)null),HtmlConfiguration.ListBoxFor_SelectSingle)  
+                        </div>
+                        <div class="row">
+                            <label>Condition:</label>
+                            @Html.TextBoxFor(m => m.SelectedItem.Condition,HtmlConfiguration.TextBoxFor_Text)
+                        </div>
+                    </div>
+                    <button class="btn btn-primary">Save</button>
+                    <a class="btn btn-primary" href="@Url.Action("Index", new
+                                                     {
+                                                         id = Model != null && Model.SelectedSkill != null ? Model.SelectedSkill.ID : (Guid?)null,
+                                                         skillSynergiId = Guid.Empty,
+                                                     })">New</a>
+                    @Html.ActionLink("Delete","Delete","SkillSynergi",new
+                    {
+                        id = Model != null && Model.SelectedSkill != null ? Model.SelectedSkill.ID : (Guid?)null,
+                        skillSynergiId = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null,
+                                                         
+                    },HtmlConfiguration.ActionLink_Button)
+                </div>
+                <div class="col-xs-12 col-md-3 col-md-offset-1">
+                    <h2>Existing synergies</h2>
+                    <div class="row">
+                        <div class="col-xs-12 btn-group">
+                            @if (Model != null && Model.Synergies != null)
+                            {
+                                foreach (var syn in Model.Synergies)
+                                {
+                                    <a class="btn btn-primary btn-block" href="@Url.Action("Index", new { 
+                                                                                   id = Model != null && Model.SelectedSkill !=null ? Model.SelectedSkill.ID : (Guid?)null, 
+                                                                                   skillSynergiId = @syn.ID })">@syn.Name</a>
+                                }
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

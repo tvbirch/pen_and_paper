@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/bootstrap.min.css")
+    @Styles.Render("~/Content/bootstrap-responsive.min.css")
+    @Styles.Render("~/Content/bootstrap-custom.css")
+</head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+            </div>
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("Character", "Index", "CharacterSelector")</li>
+                    <li>@Html.ActionLink("GM", "Index", "GmOverview")</li>
+                    <li>@Html.ActionLink("Creator", "Index", "Creator")</li>
+                </ul>
+            </div><!--/.nav-collapse -->
+          </div>
+        </nav>
+
+        <div class="container-fluid">
+            @RenderBody()
+        </div>
+        @Scripts.Render("~/bundles/bootstrap.min.js")
+        @Scripts.Render("~/bundles/jquery")
+    </body>
+</html>

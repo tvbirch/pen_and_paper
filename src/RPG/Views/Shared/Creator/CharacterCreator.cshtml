@@ -1,0 +1,359 @@
+﻿@using Newtonsoft.Json
+@using RPG.Controllers.Common
+@using RPG.Controllers.Extenstions
+@using RPG.Models.RulebookModal
+@model RPG.Models.ControllerDto.Creator.CharactorCreatorDataDto
+
+@{
+    ViewBag.Title = "CharacterCreator";
+    Layout = "~/Views/Shared/CreatorLayoutPage.cshtml";
+}
+@{
+    List<KeyValuePair<string, string>> abisIds = new List<KeyValuePair<string, string>>();
+    Dictionary<Guid, string> abisIdToField = new Dictionary<Guid, string>();
+    if (Model != null && Model.AbilityScores != null)
+    {
+        for (var i = 0; i < Model.AbilityScores.Length; i++)
+        {
+            abisIds.Add(new KeyValuePair<string, string>(Html.IdFor(m => Model.AbilityScores[i].Ability.ID).ToString(), Html.IdFor(m => Model.AbilityScores[i].BaseValue).ToString()));
+            abisIdToField.Add(Model.AbilityScores[i].Ability.ID, Html.IdFor(m => Model.AbilityScores[i].Ability.ID).ToString());
+        }
+    }
+    var heightInM = Model != null && Model.SelectedItem != null && Model.SelectedItem.PhysicalAppearance != null && Model.SelectedItem.PhysicalAppearance.Height != null ? Model.SelectedItem.PhysicalAppearance.Height.ToMetricDistance()._meters : 0;
+    string onChangeFuntion = "onchangeCharacterData('" + @Html.IdFor(a => a.SelectedItem.PhysicalAppearance.Age.CurrentAge) + "','" + @Html.IdFor(a => a.Race) + "'," + Html.Raw(JsonConvert.SerializeObject(abisIds)) + ");";
+}
+@Scripts.Render("~/bundles/charcreatorscripts")
+@using (Html.BeginForm("Save", "CharacterCreator", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Add character</h2>
+            
+            <div class="row">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#baseInfo">Base info</a></li>
+                    <li><a data-toggle="tab" href="#abilities">Abilities</a></li>
+                    <li><a data-toggle="tab" href="#physical">Physical information</a></li>
+                    <li><a data-toggle="tab" href="#classes">Classes</a></li>
+                    <li><a data-toggle="tab" href="#skillRanks">Skills</a></li>
+                    <li><a data-toggle="tab" href="#feats">Feats</a></li>
+                    <li><a data-toggle="tab" href="#languages">Languages</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="baseInfo" class="tab-pane fade in active">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.HiddenFor(m => m.SelectedItem.ID)
+                                    @Html.LabelForRequired(m => m.SelectedItem.Name) 
+                                    @Html.TextBoxFor(m => m.SelectedItem.Name, HtmlConfiguration.TextBoxFor_Text)
+                                    @Html.ValidationMessageFor(m => m.SelectedItem.Name)
+                                </div>
+                                <div class="row">
+                                    <label>Description:</label>
+                                    @Html.TextAreaFor(m => m.SelectedItem.Description, HtmlConfiguration.TextBoxFor_Text)
+                                </div>
+                                <div class="row">
+                                    @Html.LabelForRequired(m => m.SelectedItem.Xp, "XP:")
+                                    @Html.TextBoxFor(m => m.SelectedItem.Xp, HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    @Html.LabelForRequired(m => m.SelectedItem.Xp, "Base HP:")
+                                    @Html.TextBoxFor(m => m.SelectedItem.HitPoints.BaseHp, HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Allignment:</label>
+                                    @Html.DropDownListFor(m => m.SelectedItem.Alligment.ID, new SelectList(Model.AllAlligments, "ID", "Name", Model.SelectedItem != null && Model.SelectedItem.Alligment != null ? Model.SelectedItem.Alligment.ID : (Guid?)null), HtmlConfiguration.ListBoxFor_SelectSingle)
+                                </div>
+                                <div class="row">
+                                    <label>Race:</label>
+                                    @Html.DropDownListFor(a => a.Race, new SelectList(Model.AllRaces, "ID", "Name",Model.SelectedItem != null && Model.SelectedItem.Race != null ? Model.SelectedItem.Race : Model.AllRaces.FirstOrDefault()), new
+                               {
+                                   @class = "form-control chosen-select-max1",
+                                   @data_placeholder = "Select values...",
+                                   @onchange = onChangeFuntion,
+                               })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="abilities" class="tab-pane fade in">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-xs-2 col-md-2">
+                                        <label>Name</label>
+                                    </div>
+                                    <div class="col-xs-2 col-md-2">
+                                        <label>Score</label>
+                                    </div>
+                                    <div class="col-xs-2 col-md-2">
+                                        <label>Race score</label>
+                                    </div>
+                                    <div class="col-xs-2 col-md-2">
+                                        <label>Age score</label>
+                                    </div>
+                                    <div class="col-xs-2 col-md-2">
+                                        <label>Final score</label>
+                                    </div>
+                                    <div class="col-xs-2 col-md-2">
+                                        <label>Final mod</label>
+                                    </div>
+                                </div>
+                                @if (Model != null && Model.AbilityScores != null)
+                                {
+                                    for (var i = 0; i < Model.AbilityScores.Length; i++)
+                                    {
+                                        <div class="row">
+                                            <div class="col-xs-2 col-md-2">
+                                                @Html.HiddenFor(m => Model.AbilityScores[i].Ability.ID)
+                                                <label>@Model.AbilityScores[i].Ability.Name:</label>
+                                            </div>
+                                            <div class="col-xs-2 col-md-2">
+                                                @Html.TextBoxFor(m => Model.AbilityScores[i].BaseValue, HtmlConfiguration.TextBoxFor_NumberWithOnChange(onChangeFuntion)) 
+                                            </div>
+                                            <div class="col-xs-2 col-md-2">
+                                                <input id="@Html.IdFor(a => Model.AbilityScores[i].Ability.ID)_Race_Bonus" class="form-control" readonly="readonly"/>
+                                            </div>
+                                            <div class="col-xs-2 col-md-2">
+                                                <input id="@Html.IdFor(a => Model.AbilityScores[i].Ability.ID)_Age_Bonus" class="form-control" readonly="readonly"/>
+                                            </div>
+                                            <div class="col-xs-2 col-md-2">
+                                                <input id="@Html.IdFor(a => Model.AbilityScores[i].Ability.ID)_Final_Stat" class="form-control" readonly="readonly"/>
+                                            </div>
+                                            <div class="col-xs-2 col-md-2">
+                                                <input id="@Html.IdFor(a => Model.AbilityScores[i].Ability.ID)_Final_Bonus" class="form-control" readonly="readonly"/>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div id="physical" class="tab-pane fade in">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="row">
+                                            <label>Age:</label>
+                                            @Html.TextBoxFor(m => m.SelectedItem.PhysicalAppearance.Age.CurrentAge, HtmlConfiguration.TextBoxFor_NumberWithOnChange(onChangeFuntion))
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="row">
+                                            <label>Age categories for race</label>
+                                            <input id="ageCategoryForRaceId" class="form-control" tabindex="-1" readonly="true" value="N/A"/>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-md-4">
+                                        <div class="row">
+                                            <label>Resulting age category:</label>
+                                            <input id="resultingAgeCategoryId" class="form-control" tabindex="-1" readonly="true" value="N/A"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label>Eyes:</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.PhysicalAppearance.Eyes, HtmlConfiguration.TextBoxFor_Text)
+                                </div>
+                                <div class="row">
+                                    <label>Gender:</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.PhysicalAppearance.Gender, HtmlConfiguration.TextBoxFor_Text)
+                                </div>
+                                <div class="row">
+                                    <label>Hair:</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.PhysicalAppearance.Hair, HtmlConfiguration.TextBoxFor_Text)
+                                </div>
+                                <div class="row">
+                                    <label>Height in inc:</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.PhysicalAppearance.Height._inches, HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Skin:</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.PhysicalAppearance.Skin, HtmlConfiguration.TextBoxFor_Text)
+                                </div>
+                                <div class="row">
+                                    <label>Weight in lb:</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.PhysicalAppearance.Weight.Lb, HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="classes" class="tab-pane fade in">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                @if (Model == null || Model.SelectedItem == null || Model.SelectedItem.ID == Guid.Empty)
+                                {
+                                    <div class="row">
+                                        <label>Classes can only be added after the character is saved.</label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <label>Adding a new class will save the character.</label>
+                                    </div>
+                                    if (Model.SelectedItem.CurrentClasses != null)
+                                    {
+                                        for (var i = 0; i < Model.SelectedItem.CurrentClasses.Count; i++)
+                                        {
+                                            <div class="row">
+                                                <div class="col-xs-8 col-md-8">
+                                                    @Html.HiddenFor(m => Model.SelectedItem.CurrentClasses[i].ID)
+                                                    @Html.HiddenFor(m => Model.SelectedItem.CurrentClasses[i].Class.ID)
+                                                    @Html.TextBoxFor(m => Model.SelectedItem.CurrentClasses[i].Class.Name, HtmlConfiguration.TextBoxFor_ReadOnly)
+                                                </div>
+                                                <div class="col-xs-4 col-md-4">
+                                                    @Html.TextBoxFor(m => Model.SelectedItem.CurrentClasses[i].Level, HtmlConfiguration.TextBoxFor_Number)
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                    <div class="row">
+                                        <div class="col-xs-8 col-md-10">
+                                            @Html.DropDownListFor(a => a.CurrentClassToAdd, new SelectList(Model.RemaningClasses, "ID", "Name"), "--Non--", HtmlConfiguration.ListBoxFor_SelectSingle)
+                                        </div>
+                                        <div class="col-xs-4 col-md-2">
+                                            <button class="btn btn-primary width100">Add class</button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div id="skillRanks" class="tab-pane fade in">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                @if (Model == null || Model.SelectedItem == null || Model.SelectedItem.ID == Guid.Empty)
+                                {
+                                    <div class="row">
+                                        <label>Skill ranks can only be added after the character is saved.</label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <div class="col-xs-2 col-md-2">
+                                            <label>Skill</label>
+                                        </div>
+                                        <div class="col-xs-1 col-md-1">
+                                            <label>Use Untrained</label>
+                                        </div>
+                                        <div class="col-xs-1 col-md-1">
+                                            <label>Class Skill</label>
+                                        </div>
+                                        <div class="col-xs-2 col-md-2">
+                                            <label>Key ability</label>
+                                        </div>
+                                        <div class="col-xs-2 col-md-2">
+                                            <label>Ability modifier</label>
+                                        </div>
+                                        <div class="col-xs-2 col-md-2">
+                                            <label>Ranks</label>
+                                        </div>
+                                        <div class="col-xs-2 col-md-2">
+                                            <label>Skill modifier</label>
+                                        </div>
+                                    </div>
+                                    if (Model.SelectedItem.SkillRanks != null)
+                                    {
+                                        for (var i = 0; i < Model.SelectedItem.SkillRanks.Count; i++)
+                                        {
+                                            <div class="row">
+                                                <div class="col-xs-2 col-md-2">
+                                                    <div class="row">
+                                                        @Html.HiddenFor(m => Model.SelectedItem.SkillRanks[i].ID)
+                                                        @Html.HiddenFor(m => Model.SelectedItem.SkillRanks[i].Skill.ID)
+                                                        @Html.TextBoxFor(m => Model.SelectedItem.SkillRanks[i].Skill.Name, HtmlConfiguration.TextBoxFor_ReadOnly)
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-1 col-md-1">
+                                                    <div class="row">
+                                                        <input class="form-control" tabindex="-1" readonly="true" value="@Html.Raw(Model.SelectedItem.SkillRanks[i].Skill.UseUntrained ? "Yes" : "No")"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-1 col-md-1">
+                                                    <div class="row">
+                                                        <input class="form-control" tabindex="-1" readonly="true" value="@Html.Raw(Model.SelectedItem.CurrentClasses.Any(x => x.Class.ClassSkills.FirstOrDefault(y => y.ID == Model.SelectedItem.SkillRanks[i].Skill.ID) != null) ? "Yes" : "No")"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 col-md-2">
+                                                    <div class="row">
+                                                        @Html.TextBoxFor(m => Model.SelectedItem.SkillRanks[i].Skill.SkillModifier.Name, HtmlConfiguration.TextBoxFor_ReadOnly)
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 col-md-2">
+                                                    <div class="row">
+                                                        <input id="@Html.Raw(Html.IdFor(m => Model.SelectedItem.SkillRanks[i].Ranks))_skill" name="@Html.Raw(abisIdToField[Model.SelectedItem.SkillRanks[i].Skill.SkillModifier.ID])_skillMod" class="form-control" tabindex="-1" readonly="true" value="N/A"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 col-md-2">
+                                                    <div class="row">
+                                                        @Html.TextBoxFor(m => Model.SelectedItem.SkillRanks[i].Ranks, HtmlConfiguration.TextBoxFor_NumberWithOnChange(onChangeFuntion))
+                                                    </div>
+                                                </div>
+                                                <div class="col-xs-3 col-md-2">
+                                                    <div class="row">
+                                                        <input id="@Html.Raw(Html.IdFor(m => Model.SelectedItem.SkillRanks[i].Ranks))_skill_total" class="form-control" tabindex="-1" readonly="true" value="N/A"/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div id="feats" class="tab-pane fade in">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                @if (Model == null || Model.SelectedItem == null || Model.SelectedItem.ID == Guid.Empty)
+                                {
+                                    <div class="row">
+                                        <label>Feats can only be added after the character is saved.</label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        @Html.ListBoxFor(m => m.LearnedFeats, new SelectList(Model.AllFeats, "ID", "Name", Model.LearnedFeats), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div id="languages" class="tab-pane fade in">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                @if (Model == null || Model.SelectedItem == null || Model.SelectedItem.ID == Guid.Empty)
+                                {
+                                <div class="row">
+                                    <label>Languages can only be added after the character is saved.</label>
+                                </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        @Html.ListBoxFor(m => m.LearnedLanguages, new SelectList(Model.AllLanguages, "ID", "Name", Model.LearnedLanguages), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn btn-primary">Save</button>
+                <a class="btn btn-primary" href="@Url.Action("Index", new { id = (Guid?)null })">New</a>
+                @Html.ActionLink("Delete", "Delete", "CharacterCreator", new { id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null }, HtmlConfiguration.ActionLink_Button)
+            </div>
+                
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        onchangeCharacterData('@Html.IdFor(a => a.SelectedItem.PhysicalAppearance.Age.CurrentAge)', '@Html.IdFor(a => a.Race)', @Html.Raw(JsonConvert.SerializeObject(abisIds)) );
+    });
+</script>

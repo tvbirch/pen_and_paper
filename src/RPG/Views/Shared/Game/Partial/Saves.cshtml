@@ -1,0 +1,17 @@
+﻿@model RPG.Models.CharacterModal.Character
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width:75%">Saving throw</th>
+            <th style="width:25%">Total</th>
+        </tr>
+    </thead>
+    @foreach (var save in Model.GetSavingThrows())
+    {
+        <tr>
+            <th>@save.Name</th>
+            <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@save.SaveBonus.GetCalculation())">@save.SaveBonus.GetValue()</th>
+        </tr>   
+    }
+</table>

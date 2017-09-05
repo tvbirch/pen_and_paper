@@ -1,0 +1,133 @@
+﻿@using RPG.Controllers.Common
+@using RPG.Models.RulebookModal.BaseTypes.Damages
+@model RPG.Models.ControllerDto.Game.CharacterDto
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Styles.Render("~/Content/bootstrap.min.css")
+    @Styles.Render("~/Content/bootstrap-responsive.min.css")
+    @Styles.Render("~/Content/bootstrap-custom.css")
+    @Styles.Render("~/Content/select2.css")
+    @Scripts.Render("~/bundles/bootstrap.min.js")
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/scripts")
+    @Scripts.Render("~/bundles/select2")
+</head>
+    <body>
+        <nav class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="/">Home</a>
+            </div>
+              <div id="navbar" class="collapse navbar-collapse">
+                  @Html.Hidden("charId",Model.Character.ID)
+                  <ul class="nav navbar-nav">
+                      <li><a href="@Url.Action("Index","CharacterOverview", new { id = Model.Character.ID })">Overview</a></li>
+                      <li><a href="@Url.Action("Index","CharacterCombat", new { id = Model.Character.ID })">Combat</a></li>
+                      <li><a href="@Url.Action("Index","CharacterSpell", new { id = Model.Character.ID })">Spells</a></li>
+                      <li><a href="@Url.Action("Index","CharacterEquipment", new { id = Model.Character.ID })">Equipment</a></li>
+                      <li><a href="@Url.Action("Index","CharacterEquipmentModifier", new { id = Model.Character.ID })">Equipment Modifier</a></li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right">
+                      <li><a href="javascript:void(0)" onclick="$('#healDamgePromt').modal('show');">Heal</a></li>
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Damge<span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                              <li><a href="javascript:void(0)" onclick="$('#damageTypeToTakeNormal').prop('checked', true);$('#takeDamgePromt').modal('show');">Normal</a></li>
+                              <li><a href="javascript:void(0)" onclick="$('#damageTypeToTakeNormal').prop('checked', false);$('#takeDamgePromt').modal('show');">Non lethal</a></li>
+                          </ul>
+                      </li>
+                      <li class="dropdown">
+                          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">End<span class="caret"></span></a>
+                          <ul class="dropdown-menu">
+                              <li><a href="javascript:void(0)" onclick="@Html.Raw(string.Format("AjaxServicePostReload('CharacterAction','ChangeRound',{{ id : '{0}'}});",Model.Character.ID))">Round</a></li>
+                              <li><a href="javascript:void(0)" onclick="@Html.Raw(string.Format("AjaxServicePostReload('CharacterAction','ChangeEncounter',{{ id : '{0}'}});",Model.Character.ID))">Encounter</a></li>
+                              <li><a href="javascript:void(0)" onclick="@Html.Raw(string.Format("AjaxServicePostReload('CharacterAction','ChangeDay',{{ id : '{0}'}});",Model.Character.ID))">Day</a></li>
+                          </ul>
+                      </li>
+                  </ul>
+              </div><!--/.nav-collapse -->
+          </div>
+        </nav>
+
+        <div class="container-fluid">
+            @RenderBody()
+        </div>
+        
+        <nav class="navbar navbar-default navbar-fixed-bottom">
+            <div class="container">
+                <div id="navbar2" class="collapse navbar-collapse">
+                    <div class="nav navbar-nav" style="width: 50%">
+                        <p>TODO initiativ turn order</p>
+                    </div>
+                    <div class="nav navbar-nav navbar-right" style="width: 50%">
+                        <div class="col-xs-2">
+                            <label>Conditions:</label>
+                        </div>
+                        <div class="col-xs-10">
+                            @Html.ListBox("conditionsList",new MultiSelectList(Model.Character.Conditions, "ID", "Name",Model.Character.Round.ActivatedConditions.Select(x => x.Condition)), HtmlConfiguration.ListBoxFor_Select2MultipleConditionsList)
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        @Scripts.Render("~/bundles/characterready")
+        <div id="takeDamgePromt" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Take damage</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input style="visibility: hidden" type="checkbox" id="damageTypeToTakeNormal" name="damageTypeToTakeNormal" value="damageTypeToTakeNormal"/>
+                        <p>Type amount</p>
+                        <input class="form-control" type="number" id="damgeToTakeInput"/>
+                        <select class="form-control" id="damageTypeSelector">
+                            @{
+                                var damageTypes = Enum.GetValues(typeof (DamageType));
+                            }
+                            @for(var i = 0; i < damageTypes.Length; ++i)
+                            {
+                                var type = damageTypes.GetValue(i);
+                                <option value="@Html.Raw((int)type)" @Html.Raw(i == damageTypes.Length-1 ? "selected" : "")>@type.ToString()</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="TakeDamage($('#damgeToTakeInput').val(),$('#damageTypeToTakeNormal').prop('checked'),$('#damageTypeSelector option:selected').val(),'@Html.Raw(Model.Character.ID)')">Take</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="healDamgePromt" class="modal fade">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">Heal damage</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Type amount</p>
+                        <input class="form-control" type="number" id="healInput"/>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" onclick="HealDamage($('#healInput').val(),'@Html.Raw(Model.Character.ID)')">Heal</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

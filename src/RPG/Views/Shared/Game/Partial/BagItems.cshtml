@@ -1,0 +1,78 @@
+﻿@using WebGrease
+@model RPG.Models.CharacterModal.Character
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width:30%">Item</th>
+            <th style="width:10%">Pg.</th>
+            <th style="width:10%">Wt.</th>
+            <th style="width:30%">Item</th>
+            <th style="width:10%">Pg.</th>
+            <th style="width:10%">Wt.</th>
+        </tr>
+    </thead>
+    @{ var items = Model.GetBagItems();}
+    @for (var i = 0; i < items.Count; i += 2)
+    {
+        var item1 = items[i];
+        var item2 = items.Count > i + 1 ? items[i + 1] : null;
+        <tr>
+            <td>
+                <p class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(item1.Description)">@item1.Name</p>
+            </td>
+            <td>
+                <input class="form-control" type="number" value="@Html.Raw(item1.NumberOfItems)" onchange="ChangeQuantity('@Html.Raw(item1.Id)',this.value,'@Html.Raw(Model.ID)');"/>
+            </td>
+            <td style="text-align: center;">
+                <p>@item1.Weight</p>
+            </td>
+            <td>
+                <p class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(item1.Description)">@Html.Raw(item2 == null ? "" : item2.Name)</p>
+            </td>
+            <td>
+                @if (item2 != null)
+                {
+                    <input class="form-control" type="number" value="@Html.Raw(item2.NumberOfItems)" onchange="ChangeQuantity('@Html.Raw(item2.Id)',this.value,'@Html.Raw(Model.ID)');"/>
+                }
+                else
+                {
+                    <p></p>
+                }
+            </td>
+            <td style="text-align: center;">
+                <p>@Html.Raw(item2==null?"":item2.Weight.ToString())</p>
+            </td>
+        </tr>
+    }
+    <tr>
+        <td colspan="3">
+            <a style="width: 100%;" href="javascript:void(0);" onclick="$('#payForItem').prop('checked', true);$('#addItemToBag').modal('show');" class="btn btn-default">Buy item</a>
+        </td>
+        <td colspan="3">
+            <a style="width: 100%;" href="javascript:void(0);" onclick="$('#payForItem').prop('checked', false);$('#addItemToBag').modal('show');" class="btn btn-default">Loot item</a>
+        </td>
+    </tr>
+</table>
+<div id="addItemToBag" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Add Item to bag.</h4>
+            </div>
+            <div class="modal-body">
+                <p>Select items to add.</p>
+                <select id="addItemToBagSelector" class="addItemToBagSelector" style="width:100%">
+                    <option value="00000000-0000-0000-0000-000000000000" selected="selected">Select an item......</option>
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="AddItemToBag($('#addItemToBagSelector option:selected').val(),$('#payForItem').prop('checked'),'@Html.Raw(Model.ID)')">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+<input style="visibility: hidden" type="checkbox" id="payForItem" name="payForItem" value="payForItem"/>
+@Scripts.Render("~/bundles/bagitemready")

@@ -1,0 +1,127 @@
+﻿@using RPG.Controllers.Common
+@model RPG.Models.ControllerDto.GM.MapDto
+@{
+    ViewBag.Title = "Map";
+    Layout = "~/Views/Shared/GM/GMLayoutPage.cshtml";
+}
+
+@Styles.Render("~/Content/leaflet")
+@Scripts.Render("~/bundles/leaflet")
+<div class="col-xs-12 col-md-11">
+    <div class="row">
+        <div id="map" style="height:800px"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4">
+            @Html.DropDownList("allmaps",new SelectList(Model.Maps, "ID", "Name",Model.SelectedItem.ID), HtmlConfiguration.DropDownListForWithOnChange("window.location.href=window.location.protocol + '//' + window.location.host + '/Map/index?map='+$('#allmaps').val()"))
+        </div>
+        <div class="col-xs-4">
+            <a class="btn btn-primary" href="@Url.Action("CreateMapIndex", "Map",new {map = Model.SelectedItem.ID })">Create/Edit map</a>
+        </div>  
+    </div>
+</div>
+<div class="col-xs-12 col-md-1">
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.Partial("GM/Partial/TravelTime")
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    var markers = @Html.Raw(string.IsNullOrWhiteSpace(Model.MapMetaData) ? "[]" : Model.MapMetaData)
+
+    var layers = [];
+    var markerGroups = [];
+
+    //Loop through the markers array
+    for (var i = 0; i < markers.length; i++) {
+        var type = markers[i].Type;
+
+        var markerLocation = new L.LatLng(markers[i].Lon, markers[i].Lat);
+        var marker = new L.Marker(markerLocation);
+        marker.bindPopup(markers[i].Description);
+
+        var found = false;
+        var index = 0;
+        var length = Object.keys(markerGroups).length;
+        for (index = 0; index < length; index++) {
+            if (markerGroups[index].Name === type) {
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            var markerGrpObj = { Name: type, Array: []};
+            markerGroups.push(markerGrpObj);
+        }
+        markerGroups[index].Array.push(marker);
+    }
+
+    var getUrl = window.location;
+    var baseUrl = getUrl.protocol + "//" + getUrl.host + "/";
+    var mapUrl = baseUrl + "Map/GetMapPart?map=@Html.Raw(Model.SelectedItem.ID.ToString().Replace("{","").Replace("}", ""))&z={z}&x={x}&y={y}";
+    var mapmade = new L.TileLayer(mapUrl,
+        {
+            minZoom: @Html.Raw(Model.SelectedItem.MinZoom),
+            maxZoom: @Html.Raw(Model.SelectedItem.MaxZoom),
+            noWrap: true
+        });
+
+    layers.push(mapmade);
+    for (var i = 0; i < markerGroups.length; i++) {
+        markerGroups[i].Group = L.layerGroup(markerGroups[i].Array);
+        layers.push(markerGroups[i].Group);
+    }
+
+    var map = new L.Map('map', { layers: layers, center: new L.LatLng(75, -75), zoom: 3 });
+
+    var editableLayers = new L.FeatureGroup();
+    map.addLayer(editableLayers);
+
+    var options = {
+        position: 'topleft',
+        draw: {
+            polyline: {
+                metric: false
+            },
+            polygon: false,
+            circle: false, // Turns off this drawing tool
+            rectangle: false,
+            marker: false
+        },
+        edit: {
+            featureGroup: editableLayers, //REQUIRED!!
+            remove: false
+        },
+    };
+
+    var drawControl = new L.Control.Draw(options);
+    map.addControl(drawControl);
+    var rc = new L.RasterCoords(map, [@Html.Raw(Model.SelectedItem.Width), @Html.Raw(Model.SelectedItem.Height)]);
+
+    L.LatLng.prototype.distanceTo = function (o) {
+        var n = rc.project(this),
+            i = rc.project(o),
+            r = i.x - n.x,
+            a = i.y - n.y;
+        var result = Math.sqrt(r * r + a * a) * @Html.Raw(Model.SelectedItem.DistanceScale.ToString().Replace(",","."));
+        return result;
+    }
+
+    L.Control.measureControl().addTo(map);
+    //https://github.com/w8r/Leaflet.Bookmarks
+    var control = new L.Control.Bookmarks().addTo(map);
+
+    //Layers
+    var baseMaps = {
+        "Map": mapmade,
+    };
+
+    var overlayMaps = {};
+    for (var i = 0; i < markerGroups.length; i++) {
+        overlayMaps[markerGroups[i].Name] = markerGroups[i].Group;
+    }
+    L.control.layers(baseMaps, overlayMaps).addTo(map);
+</script>

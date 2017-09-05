@@ -1,0 +1,62 @@
+﻿@using RPG.Controllers.Common
+@using RPG.Controllers.Extenstions
+@using RPG.Models.RulebookModal
+@model RPG.Models.ControllerDto.Creator.RaceDataDto
+
+@{
+    ViewBag.Title = "Race";
+    Layout = "~/Views/Shared/CreatorLayoutPage.cshtml";
+}
+
+@using(Html.BeginForm("Save","Race",FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Add Race</h2>
+            <div class="form-group">
+                <div class="row">
+                    @Html.HiddenFor(m => m.SelectedItem.ID)
+                    @Html.LabelForRequired(m => m.SelectedItem.Name) 
+                    @Html.TextBoxFor(m => m.SelectedItem.Name,HtmlConfiguration.TextBoxFor_Text)
+                    @Html.ValidationMessageFor(m => m.SelectedItem.Name)
+                </div>
+                <div class="row">
+                    <label>Description:</label>
+                    @Html.TextAreaFor(m => m.SelectedItem.Description,HtmlConfiguration.TextBoxFor_Text)
+                </div>
+                <div class="row">
+                    <label>Base speed:</label>
+                    @Html.TextBoxFor(m => m.SelectedItem.BaseSpeed,HtmlConfiguration.TextBoxFor_Number)
+                </div>
+                <div class="row">
+                    <label>Size:</label>
+                    @Html.DropDownListFor(a => a.SelectedItem.Size, Tools.SizeCategoryAsSelectList(), HtmlConfiguration.DropDownListFor)
+                </div>
+                <div class="row">
+                    <label>Languages:</label>
+                    @Html.ListBoxFor(m => m.KnownLanguages, new SelectList(Model.AllLanguages, "ID", "Name", Model.KnownLanguages), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                </div>
+                <div class="row">
+                    <label>Bonus Languages:</label>
+                    @Html.ListBoxFor(m => m.BonusLanguages, new SelectList(Model.AllLanguages, "ID", "Name", Model.BonusLanguages), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                </div>
+                <div class="row">
+                    <label>Favored Classes:</label>
+                    @Html.ListBoxFor(m => m.FavoredClasses, new SelectList(Model.AllClasses, "ID", "Name", Model.FavoredClasses), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                </div>
+                <div class="row">
+                    <label>Racial Bonuses:</label>
+                    @Html.ListBoxFor(m => m.RacialBonuses, new SelectList(Model.AllBonuses, "ID", "Name", Model.RacialBonuses), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                </div>
+                <div class="row">
+                    <label>Racial abilities:</label>
+                    @Html.ListBoxFor(m => m.RacialAbilities, new SelectList(Model.AllAbilities, "ID", "Name", Model.RacialAbilities), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                </div>
+            </div>
+            <button class="btn btn-primary">Save</button>
+            <a class="btn btn-primary" href="@Url.Action("Index", new { id = (Guid?)null })">New</a>
+            @Html.ActionLink("Delete","Delete","Race",new { id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null},HtmlConfiguration.ActionLink_Button)
+            @Html.ActionLink("Edit Age Categories","Index","RaceAge",new { id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null, ageId = (Guid?)null},HtmlConfiguration.ActionLink_Button)
+        </div>
+    </div>
+}

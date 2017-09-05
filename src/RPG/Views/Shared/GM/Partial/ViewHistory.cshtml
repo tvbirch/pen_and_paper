@@ -1,0 +1,13 @@
+﻿@model IEnumerable<RPG.Models.GmModal.World.History>
+
+@foreach (var hist in Model)
+{
+    <div class="row">
+        <blockquote>
+            <div class="col-xs-12">
+                <div id="@hist.ID">@Html.Raw(hist.Description)</div>
+                <footer>Created on @hist.Created.ToString("f")</footer>
+            </div>
+        </blockquote>
+    </div>
+}

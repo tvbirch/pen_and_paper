@@ -1,0 +1,16 @@
+﻿@model RPG.Models.CharacterModal.Character
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width:33%">Max hp</th>
+            <th style="width:34%">Current</th>
+            <th style="width:33%">Nonlethal</th>
+        </tr>
+    </thead>
+    <tr>
+        <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetMaxHp().GetCalculation())">@Model.GetMaxHp().GetValue()</th>
+        <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetCurrentHp().GetCalculation())">@Model.GetCurrentHp().GetValue()</th>
+        <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetNonlethalDamage().GetCalculation())">@Model.GetNonlethalDamage().GetValue()</th>
+    </tr>
+</table>
+

@@ -1,0 +1,188 @@
+﻿@using RPG.Controllers.Common
+@using RPG.Controllers.Extenstions
+@using RPG.Models.RulebookModal
+@model RPG.Models.ControllerDto.Creator.BonusDataDto
+
+@{
+    ViewBag.Title = "Bonus";
+}
+
+@using (Html.BeginForm("Save", "Bonus", FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Add bonus</h2>
+            <div class="row">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#baseInfo">Base info</a></li>
+                    <li><a data-toggle="tab" href="#amount">Amount</a></li>
+                    <li><a data-toggle="tab" href="#applyTo">Apply to</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="baseInfo" class="tab-pane fade in active">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.HiddenFor(m => m.SelectedItem.ID)
+                                    @Html.LabelForRequired(m => m.SelectedItem.Name)
+                                    @Html.TextBoxFor(m => m.SelectedItem.Name, HtmlConfiguration.TextBoxFor_Text)
+                                    @Html.ValidationMessageFor(m => m.SelectedItem.Name)
+                                </div>
+                                <div class="row">
+                                    <label>Description:</label>
+                                    @Html.TextAreaFor(m => m.SelectedItem.Description, HtmlConfiguration.TextBoxFor_Text)
+                                </div>
+                                <div class="row">
+                                    <label>Bonus type ('Extra attack at full bab' can only be used with fixed amount, and ignoores apply to. 'DieIncrease' can only be used with fixed amount):</label>
+                                    @Html.DropDownListFor(a => a.SelectedItem.Type, Tools.BonusTypeAsSelectList(), HtmlConfiguration.DropDownListFor)
+                                </div>
+                                <div class="row">
+                                    <div class="checkbox">
+                                        <label class="btn btn-default width100">
+                                            @Html.CheckBoxFor(m => m.SelectedItem.CanTakeAsEnchantment)
+                                            Can take as Enchantment
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="amount" class="tab-pane fade">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <label>Fixed bonus</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.BonusValue.FixedValue, HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Ability modifier</label>
+                                    @Html.DropDownListFor(a => a.BonusToAddAbility, new SelectList(Model.AbilityOptions, "ID", "Name"), "--Non--", HtmlConfiguration.ListBoxFor_SelectSingle)
+                                </div>
+                                @if (Model == null || Model.SelectedItem == null || Model.SelectedItem.ID == Guid.Empty)
+                                {
+                                    <div class="row">
+                                        <label>By class level can only be added after the bonues is saved.</label>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <label>By class level</label>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 col-md-12">
+                                            <div class="row">
+                                                <div class="col-xs-4 col-md-4">
+                                                    <label>Class</label>
+                                                </div>
+                                                <div class="col-xs-4 col-md-4">
+                                                    <label>Level</label>
+                                                </div>
+                                                <div class="col-xs-4 col-md-4">
+                                                    <label>Bonus (ex. 4d6 +1)</label>
+                                                </div>
+                                            </div>
+                                            @if (Model.BonusToAddClassAtLevel != null)
+                                            {
+                                                for (var i = 0; i < Model.BonusToAddClassAtLevel.Length; i++)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-xs-4 col-md-4">
+                                                            @Html.HiddenFor(m => Model.BonusToAddClassAtLevel[i].Id)
+                                                            @Html.HiddenFor(m => Model.BonusToAddClassAtLevel[i].Class)
+                                                            @Html.TextBoxFor(m => Model.BonusToAddClassAtLevel[i].ClassName, HtmlConfiguration.TextBoxFor_ReadOnly)
+                                                        </div>
+                                                        <div class="col-xs-4 col-md-4">
+                                                            @Html.TextBoxFor(m => Model.BonusToAddClassAtLevel[i].Level, HtmlConfiguration.TextBoxFor_Number)
+                                                        </div>
+                                                        <div class="col-xs-4 col-md-4">
+                                                            @Html.TextBoxFor(m => Model.BonusToAddClassAtLevel[i].Bonues, HtmlConfiguration.TextBoxFor_ReadOnly)
+                                                        </div>
+                                                    </div>
+                                                }
+                                            }  
+                                            <div class="row">
+                                                <div class="col-xs-4 col-md-4">
+                                                    @Html.DropDownListFor(a => a.NewBonusToAddClassAtLevelClass, new SelectList(Model.Classes, "ID", "Name"), "--Non--", HtmlConfiguration.ListBoxFor_SelectSingle)
+                                                </div>
+                                                <div class="col-xs-4 col-md-4">
+                                                    @Html.TextBoxFor(m => m.NewBonusToAddClassAtLevelClassLevel, HtmlConfiguration.TextBoxFor_Number)
+                                                </div>
+                                                <div class="col-xs-4 col-md-4">
+                                                    @Html.TextBoxFor(m => m.NewBonusToAddClassAtLevelClassBonues, HtmlConfiguration.TextBoxFor_Text)
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                                <div class="row">
+                                    <label>Only apply bonus against</label>
+                                    @Html.DropDownListFor(a => a.SelectedItem.BonusValue.Against, Tools.DamageTypeAsSelectList(), "--Non--", HtmlConfiguration.ListBoxFor_SelectSingle)
+                                </div>
+                                <div class="row">
+                                    <label>Dice (ex. 2d6+1d4)</label>
+                                    @Html.TextBoxFor(m => m.AmountDice, HtmlConfiguration.TextBoxFor_Text)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="applyTo" class="tab-pane fade">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                
+                                <div class="row">
+                                    <label>Info:</label>
+                                    Choose what the bonus should apply to. Note that bonuses used for Item Material should have Apply to all selected, they will however only apply to the items of that material.
+                                    Material only support bonuses of type "Item Property".
+                                </div>
+                                <div class="row">
+                                    <div class="checkbox">
+                                        <label class="btn btn-default width100">
+                                            @Html.CheckBoxFor(m => m.SelectedItem.ApplyTo.ApplyToAll)
+                                            Apply to all?
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label>Select type to apply to</label>
+                                    @Html.DropDownListFor(a => a.SelectedItem.ApplyTo.ApplyToType, Tools.BonusApplyToTypeAsSelectList(), new
+                               {
+                                   @class = "form-control",
+                                   @onchange = "GetItemsFromBonusApplyToType(this.value,'" + @Html.IdFor(m => m.SelectedItem.ApplyTo.ApplyToGuid) + "','" + @Html.ValueFor(x => x.SelectedItem.ApplyTo.ApplyToGuid) + "'); GetSubItemsFromBonusApplyToType(this.value,'" + @Html.IdFor(m => m.SelectedItem.ApplyTo.ApplyToSubtypeGuid) + "','" + @Html.ValueFor(x => x.SelectedItem.ApplyTo.ApplyToSubtypeGuid) + "')",
+                               })
+                                </div>
+                                <div class="row">
+                                    <label>Select what to apply to</label>
+                                    @Html.DropDownListFor(a => a.SelectedItem.ApplyTo.ApplyToGuid, new SelectList(new List<SelectListItem>(), "Value", "Text"), "--Non--", HtmlConfiguration.ListBoxFor_SelectSingle)
+                                </div>
+                                <div id="@Html.IdFor(m => m.SelectedItem.ApplyTo.ApplyToSubtypeGuid)_Row" class="row">
+                                    <label>Select sub type to apply to</label>
+                                    @Html.DropDownListFor(a => a.SelectedItem.ApplyTo.ApplyToSubtypeGuid, new SelectList(new List<SelectListItem>(), "Value", "Text"), "--Non--", HtmlConfiguration.ListBoxFor_SelectSingle)
+                                </div>
+                                <div class="row">
+                                    <label>Apply to condition:</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.ApplyTo.ApplyToCondition, HtmlConfiguration.TextBoxFor_Text)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn btn-primary">Save</button>
+                <a class="btn btn-primary" href="@Url.Action("Index", new { id = (Guid?)null })">New</a>
+                @Html.ActionLink("Delete", "Delete", "Bonus", new { id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null }, HtmlConfiguration.ActionLink_Button)
+            </div>
+        </div>
+    </div>
+}
+<script type="text/javascript">
+    $(document).ready(function () {
+        var listId1 = "@Html.IdFor(m => m.SelectedItem.ApplyTo.ApplyToType)";
+        var list1 = $("#"+listId1);
+        list1.trigger("change");
+        var listId2 = "@Html.IdFor(m => m.SelectedItem.ApplyTo.ApplyToSubtypeGuid)";
+        var list2 = $("#" + listId2);
+        list2.trigger("change");
+    });
+</script>

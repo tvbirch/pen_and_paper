@@ -1,0 +1,77 @@
+﻿@model RPG.Models.ControllerDto.GM.HistoryDto
+@{
+    ViewBag.Title = "History";
+    Layout = "~/Views/Shared/GM/GMLayoutPage.cshtml";
+}
+
+@Styles.Render("~/Content/at")
+@Scripts.Render("~/bundles/at")
+
+<style type="text/css">
+    /*override atwho's style*/
+    .atwho-inserted {
+        color: #4183C4;
+    }
+    .atwho-query {
+        color: #4183C4;
+    }
+</style>
+
+<h2>History</h2>
+
+<div class="col-xs-12">
+    <div class="row">
+        <label>Use # to search for characters and NPC's. Use @@ to search for locations.</label>
+    </div>
+    <div class="row">
+        <div id="editable" class="inputor form-control atview" style="min-height: 250px" contentEditable="true">@Html.Raw(Model.SelectedItem == null ? "" : Model.SelectedItem.Description)</div>
+    </div>
+    <div class="row">
+        <button class="btn btn-primary" onclick="SaveHistory(@Html.Raw(Model.SelectedItem == null ? "null" : "'" + Model.SelectedItem.ID + "'"), $('#editable').html());">Save</button>
+        <a class="btn btn-primary" href="@Url.Action("Index", new { id = (Guid?)null })">New</a>
+    </div>
+    <div class="row">
+        <label>Previous history:</label>
+    </div>
+    @foreach (var hist in Model.WorldHistory)
+    {
+        <div class="row">
+            <blockquote>
+                <div class="col-xs-11">
+                    <div id="@hist.ID">@Html.Raw(hist.Description)</div>
+                    <footer>Created on @hist.Created.ToString("f")</footer>
+                </div>
+                <div class="col-xs-1">
+                    <a class="btn btn-primary btn-block" href="@Url.Action("Delete", new { id = hist.ID })">Delete</a>
+                    <a class="btn btn-primary btn-block" href="@Url.Action("Index", new { id = hist.ID })">Edit</a>
+                </div>
+            </blockquote>
+        </div>
+    }
+</div>
+
+
+
+
+
+<script type="text/javascript">
+    $(function () {
+        var characters = @Html.Raw(ViewBag.Characters);
+        var locations = @Html.Raw(ViewBag.Locations);
+        $('.atview').atwho({
+            at: "#",
+            displayTpl: '<li>${Name} - ${Type}</li>',
+            insertTpl: "<a href='${Link}'>${Name}<p hidden>${Type}:${Id}</p></a>",
+            data: characters,
+            limit: 10,
+            searchKey: "Name"
+        }).atwho({
+            at: "@@",
+            displayTpl: '<li>${Name} - ${Type}</li>',
+            insertTpl: "<a href='${Link}'>${Name}<p hidden>${Type}:${Id}</p></a>",
+            data: locations,
+            limit: 10,
+            searchKey: "Name"
+        });
+    });
+</script>

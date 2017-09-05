@@ -1,0 +1,17 @@
+﻿@model RPG.Models.CharacterModal.Character
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width:25%">AC</th>
+            <th style="width:25%">Touch AC</th>
+            <th style="width:25%">Flat Footed AC</th>
+            <th style="width:25%">Damage reduction</th>
+        </tr>
+    </thead>
+    <tr>
+        <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetArmorClass().GetCalculation())">@Model.GetArmorClass().GetValue()</th>
+        <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetTouchArmorClass().GetCalculation())">@Model.GetTouchArmorClass().GetValue()</th>
+        <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetFlettFootedArmorClass().GetCalculation())">@Model.GetFlettFootedArmorClass().GetValue()</th>
+        <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@Model.GetDamageReduction().GetCalculation())">@Model.GetDamageReduction().GetValue()</th>
+    </tr>
+</table>

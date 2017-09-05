@@ -1,0 +1,195 @@
+﻿@using RPG.Controllers.Common
+@using RPG.Controllers.Extenstions
+@using RPG.Models.RulebookModal
+@model RPG.Models.ControllerDto.Creator.ItemDataDto
+
+@{
+    ViewBag.Title = "Item";
+    Layout = "~/Views/Shared/CreatorLayoutPage.cshtml";
+}
+
+@using(Html.BeginForm("Save","Item",FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Add item</h2>
+            <div class="row">
+                <ul class="nav nav-tabs">
+                    <li class="active"><a data-toggle="tab" href="#baseInfo">Base info</a></li>
+                    <li><a data-toggle="tab" href="#attack">Weapon properties</a></li>
+                    <li><a data-toggle="tab" href="#defence">Armor properties</a></li>
+                    <li><a data-toggle="tab" href="#magic">Enchantments</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="baseInfo" class="tab-pane fade in active">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    @Html.HiddenFor(m => m.SelectedItem.ID)
+                                    @Html.LabelForRequired(m => m.SelectedItem.Name) 
+                                    @Html.TextBoxFor(m => m.SelectedItem.Name,HtmlConfiguration.TextBoxFor_Text)
+                                    @Html.ValidationMessageFor(m => m.SelectedItem.Name)
+                                </div>
+                                <div class="row">
+                                    <label>Description:</label>
+                                    @Html.TextAreaFor(m => m.SelectedItem.Description,HtmlConfiguration.TextBoxFor_Text)
+                                </div>
+                                <div class="row">
+                                    <label>Item Type:</label>
+                                    @Html.DropDownListFor(a => a.SelectedItem.Type, Tools.ItemTypeAsSelectList(), HtmlConfiguration.DropDownListFor)
+                                </div>
+                                <div class="row">
+                                    <label>Weight in lb:</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.Weight.Lb,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Price in copper:</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.Price.CopperPrice,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <div class="checkbox">
+                                        <label class="btn btn-default width100">
+                                            @Html.CheckBoxFor(m => m.SelectedItem.Masterworked)
+                                            Is masterworked?
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label>Special matieral:</label>
+                                    @Html.DropDownListFor(a => a.SpecialMaterial, new SelectList(Model.Materials, "ID", "Name"),"--Non--", HtmlConfiguration.ListBoxFor_SelectSingle)
+                                </div>
+                                <div class="row">
+                                    <label>Requires item slots:</label>
+                                    @Html.ListBoxFor(m => m.RequiredSlots, Tools.ItemSlotRequirementAsSelectList(), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                                </div>
+                                <div class="row">
+                                    <label>Grants item slots:</label>
+                                    @Html.ListBoxFor(m => m.GrantedSlots, Tools.ItemSlotRequirementAsSelectList(), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                                </div>
+                                <div class="row">
+                                    <label>Requires abilities(proficiency):</label>
+                                    @Html.ListBoxFor(m => m.RequiresSpecialAbilities, new SelectList(Model.SpecialAbilities, "ID", "Name"), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="attack" class="tab-pane fade">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="checkbox">
+                                        <label class="btn btn-default width100">
+                                            @Html.CheckBoxFor(m => m.SelectedItem.CanAttack)
+                                            Can attack?
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="checkbox">
+                                        <label class="btn btn-default width100">
+                                            @Html.CheckBoxFor(m => m.SelectedItem.IsRanged)
+                                            Is ranged?
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="checkbox">
+                                        <label class="btn btn-default width100">
+                                            @Html.CheckBoxFor(m => m.SelectedItem.IsOneAndAHalfHanded)
+                                            Is one and a half handed?
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="checkbox">
+                                        <label class="btn btn-default width100">
+                                            @Html.CheckBoxFor(m => m.SelectedItem.IsLightWeapon)
+                                            Is light weapon?
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <label>Damage (format ex: 2d6 + 1):</label>
+                                    @Html.TextBoxFor(m => m.DamageString,HtmlConfiguration.TextBoxFor_Text)
+                                </div>
+                                <div class="row">
+                                    <label>Damage type:</label>
+                                    @Html.DropDownListFor(a => a.DamageType, Tools.DamageTypeAsSelectList(),"--Non--", HtmlConfiguration.ListBoxFor_SelectSingle)
+                                </div>
+                                <div class="row">
+                                    <label>Critical damage multiploer</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.CriticalMultiplier,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Non magic attack bonus (Not including masterworked)</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.AttackBonus,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Crit range (0 = 20, 1 = 19-20 etc)</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.CritRange,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Range increments</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.RangeIncrement,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Item has own abilityscore to use (Modifier)</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.UseItemsOwnAbilistyScore,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="defence" class="tab-pane fade">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <label>AC</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.AC,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Max speed</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.MaxSpeed,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Max dex</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.MaxDexBonus,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Armor Check Penelty</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.ArmorCheckPenelty,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Arcane spell failure</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.ArcaneSpellFailure,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="magic" class="tab-pane fade">
+                        <div class="col-xs-12">
+                            <div class="form-group">
+                                <div class="row">
+                                    <label>Enchanment bonus</label>
+                                    @Html.TextBoxFor(m => m.SelectedItem.EnchanmentBonus,HtmlConfiguration.TextBoxFor_Number)
+                                </div>
+                                <div class="row">
+                                    <label>Enchamted bonuses:</label>
+                                    @Html.ListBoxFor(m => m.EnchantetBonuses, new SelectList(Model.Bonuses, "ID", "Name"), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                                </div>
+                                <div class="row">
+                                    <label>Enchamted abilities:</label>
+                                    @Html.ListBoxFor(m => m.EnchantetSpecialAbilities, new SelectList(Model.SpecialAbilities, "ID", "Name"), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <button class="btn btn-primary">Save</button>
+                <a class="btn btn-primary" href="@Url.Action("Index", new { id = (Guid?)null })">New</a>
+                @Html.ActionLink("Delete","Delete","Item",new { id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null},HtmlConfiguration.ActionLink_Button)
+            </div>
+        </div>
+    </div>
+}

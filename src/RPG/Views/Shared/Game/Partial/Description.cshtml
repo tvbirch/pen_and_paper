@@ -1,0 +1,136 @@
+﻿@model RPG.Models.CharacterModal.Character
+
+<div class="row">
+    <div class="col-xs-3 col-md-3">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;">@Model.Name</td>
+            </tr>
+            <tr>
+                <td>Name</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-3 col-md-3">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;">@Model.GetClassesAndLevelString()</td>
+            </tr>
+            <tr>
+                <td>Classes</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-2 col-md-2">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;">@Model.GetRaceString()</td>
+            </tr>
+            <tr>
+                <td>Classes</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-2 col-md-2">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;" >@Model.GetAlignmentString()</td>
+            </tr>
+            <tr>
+                <td>Alignment</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-2 col-md-2">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;" >@Model.GetDeityString()</td>
+            </tr>
+            <tr>
+                <td>Deity</td>
+            </tr>
+        </table>
+    </div> 
+</div>
+<div class="row">
+    <div class="col-xs-2 col-md-2">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;" >@Model.GetSizeString()</td>
+            </tr>
+            <tr>
+                <td>Size</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-2 col-md-2">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;" >@Model.GetAgeString()</td>
+            </tr>
+            <tr>
+                <td>Age</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-1 col-md-1">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;" >@Model.GetGenderString()</td>
+            </tr>
+            <tr>
+                <td>Gender</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-2 col-md-2">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;" >@Model.GetHeightString()</td>
+            </tr>
+            <tr>
+                <td>Height</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-2 col-md-2">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;" >@Model.GetWeightString()</td>
+            </tr>
+            <tr>
+                <td>Weight</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-2 col-md-1">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;" >@Model.GetEyesString()</td>
+            </tr>
+            <tr>
+                <td>Eyes</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-1 col-md-1">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;" >@Model.GetHairString()</td>
+            </tr>
+            <tr>
+                <td>Hair</td>
+            </tr>
+        </table>
+    </div>
+    <div class="col-xs-1 col-md-1">
+        <table style="width:100%">
+            <tr style="width:100%">
+                <td style="border-bottom: 1px solid #000; white-space: nowrap;" >@Model.GetSkinString()</td>
+            </tr>
+            <tr>
+                <td>Skin</td>
+            </tr>
+        </table>
+    </div>
+</div>

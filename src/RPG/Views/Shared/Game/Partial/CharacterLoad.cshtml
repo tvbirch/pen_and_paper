@@ -1,0 +1,58 @@
+﻿@model RPG.Models.CharacterModal.Character
+
+@{ var load = Model.GetLoad();}
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th style="width:14%">Light load</th>
+            <th style="width:14%">Medium load</th>
+            <th style="width:14%">Heavy load</th>
+            <th style="width:14%">Lift over head</th>
+            <th style="width:14%">Lift over ground</th>
+            <th style="width:14%">Push or drag</th>
+            <th style="width:15%">Current Load</th>
+        </tr>
+    </thead>
+    <tr>
+        <td>
+            <p>
+               @if (load.IsLightLoad)
+               {
+                   <strong>@load.LightLoad</strong>
+               }
+               else
+               {
+                   @load.LightLoad
+               }
+            </p>
+        </td>
+        <td>
+            <p>
+               @if (load.IsMediumLoad)
+               {
+                   <strong>@load.MediumLoad</strong>
+               }
+               else
+               {
+                   @load.MediumLoad
+               }
+            </p>
+        </td>
+        <td>
+            <p>
+               @if (load.IsHeavyLoad)
+               {
+                   <strong>@load.HeavyLoad</strong>
+               }
+               else
+               {
+                   @load.HeavyLoad
+               }
+            </p>
+        </td>
+        <td><p>@load.LiftOverHeadLoad</p></td>
+        <td><p>@load.LiftOverGroundLoad</p></td>
+        <td><p>@load.PushOrDrag</p></td>
+        <td><p>@load.CurrentLoad</p></td>
+    </tr>    
+</table>

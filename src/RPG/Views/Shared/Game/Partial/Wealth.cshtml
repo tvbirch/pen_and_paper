@@ -1,0 +1,42 @@
+﻿@model RPG.Models.CharacterModal.Character
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>
+                <h4>Wealth</h4>
+            </th>
+        </tr>
+    </thead>
+    <tr>
+        <td><p>@Model.Inventory.Wealth.ToString()</p></td>
+    </tr>
+    <tr>
+        <td>
+            <a style="width: 100%;" href="javascript:void(0);" onclick="$('#addToWealth').prop('checked', true);$('#addMoneyToWealth').modal('show');" class="btn btn-default">Add money</a>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a style="width: 100%;" href="javascript:void(0);" onclick="$('#addToWealth').prop('checked', false);$('#addMoneyToWealth').modal('show');" class="btn btn-default">Remove money</a>
+        </td>
+    </tr>
+</table>
+<div id="addMoneyToWealth" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title">Change wealth.</h4>
+            </div>
+            <div class="modal-body">
+                <p>Type amount in format "x pp y gp z cp".</p>
+                <input style="visibility: hidden" type="checkbox" id="addToWealth" name="addToWealth" value="addToWealth"/>
+                <input class="form-control" type="text" id="changeInWealth"/>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" onclick="ChangeWealth($('#changeInWealth').val(),$('#addToWealth').prop('checked'),'@Html.Raw(Model.ID)')">Change</button>
+            </div>
+        </div>
+    </div>
+</div>

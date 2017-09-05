@@ -1,0 +1,57 @@
+﻿@using RPG.Controllers.Common
+@model RPG.Models.ControllerDto.Game.CharacterEquipmentModifierDto
+
+@{
+    ViewBag.Title = "Equipment Modifier";
+    Layout = "~/Views/Shared/Game/CharacterLayoutPage.cshtml";
+}
+
+
+<div class="col-xs-12">
+    <div class="row">
+        <h2>Equipment Modifier</h2>
+    </div>
+    <div class="row">
+        <label>Select item</label>
+        @Html.DropDownListFor(m => m.SelectedItem, new SelectList(Model.OwnedItems, "ID", "Name", Model.SelectedItem), 
+            HtmlConfiguration.DropDownListForWithOnChange("ReloadWindow(this,'"+@Html.Raw(Model.Character.ID)+"');"))
+    </div>
+    @if (Model.SelectedItem != null)
+    {
+        using (Html.BeginForm("Save", "CharacterEquipmentModifier", FormMethod.Post))
+        {
+            <div class="row">
+                <h3>Stats for @Model.Name</h3>
+            </div>
+            <div class="row">
+                <div class="checkbox">
+                    <label class="btn btn-default width100">
+                        @Html.CheckBoxFor(m => m.Masterworked)
+                        Masterworked?
+                    </label>
+                </div>
+            </div>
+            <div class="row">
+                <label>Special matieral:</label>
+                @Html.DropDownListFor(a => a.SpecialMaterial, new SelectList(Model.Materials, "ID", "Name"),"--Non--", HtmlConfiguration.ListBoxFor_SelectSingle)
+            </div>
+            <div class="row">
+                <label>Enchanment bonus</label>
+                @Html.TextBoxFor(m => m.EnchantmentBonus,HtmlConfiguration.TextBoxFor_Number)
+            </div>
+            <div class="row">
+                <label>Enchamted bonuses:</label>
+                @Html.ListBoxFor(m => m.EnchantetBonuses, new SelectList(Model.Bonuses, "ID", "Name"), HtmlConfiguration.ListBoxFor_SelectMultiple)
+            </div>
+            <div class="row">
+                <label>Enchamted abilities:</label>
+                @Html.ListBoxFor(m => m.EnchantetSpecialAbilities, new SelectList(Model.SpecialAbilities, "ID", "Name"), HtmlConfiguration.ListBoxFor_SelectMultiple)
+            </div>
+            <div class="row">
+                <button class="btn btn-primary">Enchant</button>
+            </div>
+            @Html.HiddenFor(m => m.SelectedItem)
+            @Html.HiddenFor(m => m.Character.ID)
+        }
+    }
+</div>   

@@ -1,0 +1,130 @@
+﻿<div class="row">
+    <div class="col-xs-4 col-md-12">
+        <div class="row">
+            <label>Manuel speed:</label>
+            <input class="form-control" type="number" id="travelSpeedFixedSpeed" value="30"/>
+        </div>
+        <div class="row">
+            <label>By type:</label>
+            <select class="form-control" id="travelSpeedByType">
+                <option value="40">God, Riding (40ft)</option>
+                <option value="30">Donky (30ft)</option>
+                <option value="20">Dwarf (20ft)</option>
+                <option value="56.25">Keelboat, downsteam (45ft, adjusted for 10h/day)</option>
+                <option value="18.75">Keelboat, upsteam (15ft, adjusted for 10h/day)</option>
+                <option value="60">Horse, Light  (60ft)</option>
+                <option value="50">Horse, Heavy  (50ft)</option>
+                <option value="50">Horse, War  (50ft)</option>
+                <option value="30" selected="selected">Human (30ft)</option>
+                <option value="30">Mule (30ft)</option>
+                <option value="40">Pony (40ft)</option>
+                <option value="46.875">Raft or barge, downsteam (37,5ft, adjusted for 10h/day)</option>
+                <option value="9.375">Raft or barge, upstream (7,5ft, adjusted for 10h/day)</option>
+                <option value="65.625">Rowboad, downsteam (52,5ft, adjusted for 10h/day)</option> 
+                <option value="28.125">Rowboad, upstream (22,5ft, adjusted for 10h/day)</option>
+                <option value="90">Sailing ship (30ft, adjusted for 24/7)</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-xs-4 col-md-12">
+        <div class="row">
+            <label>Hampered Movement:</label>
+            <select class="form-control" id="travelSpeedHampered">
+                <option value="1" selected="selected">Non</option>
+                <option value="2">Difficult terrain</option>
+                <option value="2">Obstacle1</option>
+                <option value="2">Poor visibility</option>
+                <option value="-1">Impassable</option>
+            </select>
+        </div>
+        <div class="row">
+            <label>Terrain and Overland Movement:</label>
+            <select class="form-control" id="travelSpeedTerrain">
+                <option value="1">Desert, sandy - Highway</option>
+                <option value="0.5">Desert, sandy - Road or Trail</option>
+                <option value="0.5">Desert, sandy - Trackless</option>
+                <option value="1">Forest - Highway</option>
+                <option value="1">Forest - Road or Trail</option>
+                <option value="0.5">Forest - Trackless</option>
+                <option value="1">Hills - Highway</option>
+                <option value="0.75">Hills - Road or Trail</option>
+                <option value="0.5">Hills - Trackless</option>
+                <option value="1">Jungle - Highway</option>
+                <option value="0.75">Jungle - Road or Trail</option>
+                <option value="0.25">Jungle - Trackless</option>
+                <option value="1">Moor - Highway</option>
+                <option value="1">Moor - Road or Trail</option>
+                <option value="0.75">Moor - Trackless</option>
+                <option value="0.75">Mountains - Highway</option>
+                <option value="0.75">Mountains - Road or Trail</option>
+                <option value="0.5">Mountains - Trackless</option>
+                <option value="1">Plains - Highway</option>
+                <option value="1" selected="selected">Plains - Road or Trail</option>
+                <option value="0.75">Plains - Trackless</option>
+                <option value="1">Swamp - Highway</option>
+                <option value="0.75">Swamp - Road or Trail</option>
+                <option value="0.5">Swamp - Trackless</option>
+                <option value="1">Tundra, frozen - Highway</option>
+                <option value="0.75">Tundra, frozen - Road or Trail</option>
+                <option value="0.75">Tundra, frozen - Trackless</option>
+            </select>
+        </div>
+    </div>
+    <div class="col-xs-4 col-md-12">
+        <div class="row">
+            <label>Distance in miles:</label>
+            <input class="form-control" type="number" id="travelSpeedDistance" />
+        </div>
+        <div class="row">
+            <label>Resulting walk time:</label>
+            <input class="form-control" readonly="readonly" type="text" id="travelSpeedResult"/>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    var travelSpeedFixedSpeed = $("#travelSpeedFixedSpeed");
+    var travelSpeedByType = $("#travelSpeedByType");
+    var travelSpeedHampered = $("#travelSpeedHampered");
+    var travelSpeedTerrain = $("#travelSpeedTerrain");
+    var travelSpeedDistance = $("#travelSpeedDistance");
+
+    travelSpeedFixedSpeed.change(travelSpeedReCalculate);
+    travelSpeedByType.change(travelSpeedSetSpeed);
+    travelSpeedHampered.change(travelSpeedReCalculate);
+    travelSpeedTerrain.change(travelSpeedReCalculate);
+    travelSpeedDistance.change(travelSpeedReCalculate);
+
+    function travelSpeedReCalculate() {
+        var distance = $("#travelSpeedDistance").val();
+        if (distance === undefined || distance === null || distance < 0) {
+            $("#travelSpeedResult").val("N/A");
+            return;
+        }
+
+        var hamperedModifier = $("#travelSpeedHampered").val();
+        if (hamperedModifier === undefined || hamperedModifier === null || hamperedModifier < 0) {
+            $("#travelSpeedResult").val("N/A");
+            return;
+        }
+
+        var speedInFeet = $("#travelSpeedFixedSpeed").val();
+        var terrainModifier = $("#travelSpeedTerrain").val();
+        var finalSpeed = speedInFeet / hamperedModifier * terrainModifier;
+        var finalSpeedPrSec = finalSpeed / 6; //6 to go from round to sec
+        var finalSpeedInMph = finalSpeedPrSec * 0.681818182; //Convertering from feet pr sec to miles pr hour
+        var totalTimeInHours = distance / finalSpeedInMph;
+        var totalTimeInTravelDays = totalTimeInHours / 8; //You can only walk 8 hours a day
+
+        var totalDays = Math.floor(totalTimeInTravelDays);
+        var hours = Math.round((totalTimeInTravelDays - totalDays) * 24);
+
+
+        $("#travelSpeedResult").val(totalDays + "days " + hours + "hours");
+    }
+    function travelSpeedSetSpeed() {
+        var travelSpeedByType = $("#travelSpeedByType");
+        var travelSpeedFixedSpeed = $("#travelSpeedFixedSpeed");
+        travelSpeedFixedSpeed.val(travelSpeedByType.val());
+        travelSpeedReCalculate();
+    }
+</script>

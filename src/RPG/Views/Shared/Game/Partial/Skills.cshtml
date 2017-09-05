@@ -1,0 +1,23 @@
+﻿@model RPG.Models.CharacterModal.Character
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th colspan="3" style="width:45%">Skill name</th>
+            <th style="width:15%">Ability</th>
+            <th style="width:25%">Skill Modifier</th>
+            <th style="width:15%">Ranks</th>
+        </tr>
+    </thead>
+    @foreach (var skillDto in Model.GetSkills())
+    {
+        <tr>
+            <th style="width:5%">@Html.Raw(skillDto.IsClassSkill ? "&#9745;" : "&#9744;")</th>
+            <th style="width:30%">@skillDto.Name</th>
+            <th style="width:5%">@Html.Raw(skillDto.UseUntrained ? "&#9632;" : "")</th>
+            <th>@skillDto.Ability.Substring(0,3)</th>
+            <th class="pop" data-container="body" data-toggle="popover" data-placement="bottom" data-content="@Html.Raw(@skillDto.Ranks.GetCalculation())">@skillDto.Ranks.GetValue()</th>
+            <th>@skillDto.SkillRanks</th>
+        </tr>
+    }
+</table>

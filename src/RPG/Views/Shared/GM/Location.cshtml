@@ -1,0 +1,200 @@
+﻿@using RPG.Controllers.Common
+@model RPG.Models.ControllerDto.GM.LocationDto
+@{
+    ViewBag.Title = "NPC";
+    Layout = "~/Views/Shared/GM/GMLayoutPage.cshtml";
+}
+
+<div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-2">
+            <div class="row">
+                <label>View Location:</label>
+            </div>
+        </div>
+        <div class="col-xs-10">
+            <div class="row">
+                @Html.DropDownList("alllocations", new SelectList(Model.Locations, "ID", "Name"), HtmlConfiguration.ListBoxFor_SelectSingleWithOnChange("LoadLocation(this);"))
+            </div>
+        </div>
+    </div>
+    @using (Html.BeginForm("Save", "Location", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-xs-10">
+                <div class="row">
+                    <div class="col-xs-2">
+                        <div class="row">
+                            <label>Name:</label>
+                        </div>
+                        <div class="row">
+                            @Html.HiddenFor(m => m.SelectedItem.ID)
+                            @Html.TextBoxFor(x => x.SelectedItem.Name, HtmlConfiguration.TextBoxFor_Text)
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <div class="row">
+                            <label>Population:</label>
+                        </div>
+                        <div class="row">
+                            @Html.TextBoxFor(x => x.SelectedItem.Population, HtmlConfiguration.TextBoxFor_Text)
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <div class="row">
+                            <label>Type:</label>
+                        </div>
+                        <div class="row">
+                            @Html.DropDownListFor(x => x.LocationTypeId, new SelectList(Model.LocationTypes, "ID", "Name",@Model.LocationTypeId), HtmlConfiguration.ListBoxFor_SelectSingle)
+                        </div>
+                    </div>
+                    <div class="col-xs-2">
+                        <div class="row">
+                            <label>Map:</label>
+                        </div>
+                        <div class="row">
+                            @Html.DropDownListFor(x => x.MapId, new SelectList(Model.Maps, "ID", "Name", @Model.MapId), HtmlConfiguration.ListBoxFor_SelectSingle)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-4">
+                        <div class="row">
+                            <label>Lon:</label>
+                        </div>
+                        <div class="row">
+                            @Html.TextBoxFor(x => x.SelectedItem.Lon, HtmlConfiguration.TextBoxFor_Number)
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="row">
+                            <label>Lat:</label>
+                        </div>
+                        <div class="row">
+                            @Html.TextBoxFor(x => x.SelectedItem.Lat, HtmlConfiguration.TextBoxFor_Number)
+                        </div>
+                    </div>
+                    <div class="col-xs-4">
+                        <div class="row">
+                            <label>Layer:</label>
+                        </div>
+                        <div class="row">
+                            @Html.TextBoxFor(x => x.SelectedItem.Layer, HtmlConfiguration.TextBoxFor_Number)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <div class="row">
+                                    <label>Governance:</label>
+                                </div>
+                                <div class="row">
+                                    @Html.TextAreaFor(x => x.SelectedItem.Governance, HtmlConfiguration.TextArea3R)
+                                </div>
+                                <div class="row">
+                                    <label>Races:</label>
+                                </div>
+                                <div class="row">
+                                    @Html.TextAreaFor(x => x.SelectedItem.Races, HtmlConfiguration.TextArea3R)
+                                </div>
+                                <div class="row">
+                                    <label>Source of income:</label>
+                                </div>
+                                <div class="row">
+                                    @Html.TextAreaFor(x => x.SelectedItem.SourceOfIncome, HtmlConfiguration.TextArea3R)
+                                </div>
+                            </div>
+                            <div class="col-xs-6">
+                                <div class="row">
+                                    <label>Prosperity and crime:</label>
+                                </div>
+                                <div class="row">
+                                    @Html.TextAreaFor(x => x.SelectedItem.ProsperityAndCrime, HtmlConfiguration.TextArea3R)
+                                </div>
+                                <div class="row">
+                                    <label>Military:</label>
+                                </div>
+                                <div class="row">
+                                    @Html.TextAreaFor(x => x.SelectedItem.Military, HtmlConfiguration.TextArea3R)
+                                </div>
+                                <div class="row">
+                                    <label>Source of food:</label>
+                                </div>
+                                <div class="row">
+                                    @Html.TextAreaFor(x => x.SelectedItem.SourceOfFood, HtmlConfiguration.TextArea3R)
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <label>Groups and factions:</label>
+                        </div>
+                        <div class="row">
+                            @Html.TextAreaFor(x => x.SelectedItem.GroupsAndFactions, HtmlConfiguration.TextArea14R)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <label>Features and landmarks:</label>
+                        </div>
+                        <div class="row">
+                            @Html.TextAreaFor(x => x.SelectedItem.FeaturesAndLandmarks, HtmlConfiguration.TextArea5R)
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <label>Notable locations:</label>
+                        </div>
+                        <div class="row">
+                            @Html.TextAreaFor(x => x.SelectedItem.NotableLocations, HtmlConfiguration.TextArea5R)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <label>Notes:</label>
+                        </div>
+                        <div class="row">
+                            @Html.TextAreaFor(x => x.SelectedItem.Description, HtmlConfiguration.TextArea5R)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <button class="btn btn-primary">Save</button>
+                    <a class="btn btn-primary" href="@Url.Action("Index", new { id = (Guid?)null })">New</a>
+                    @Html.ActionLink("Delete", "Delete", "Location", new { id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null }, HtmlConfiguration.ActionLink_Button)
+                </div>  
+            </div>
+            <div class="col-xs-2">
+                <div class="row">
+                    <label>NPC's:</label>
+                </div>
+                <div class="col-xs-12 btn-group">
+                @if (Model.SelectedItem != null && Model.SelectedItem.NPCs != null)
+                {
+                    foreach (var npc in Model.SelectedItem.NPCs)
+                    {
+                        <a class="btn btn-primary btn-block" href="@Url.Action("Index","NpcOverview", new { id = npc.ID })">@npc.Name</a>
+                    }
+                }
+                </div>
+            </div>
+        </div>
+    }
+</div>
+<h3>Location history:</h3>
+@Html.Partial("~/Views/Shared/GM/Partial/ViewHistory.cshtml", Model.History)
+
+<script type="text/javascript">
+    function LoadLocation(selected) {
+        var url = '/Location/Index/' + selected.value;
+        window.location.href = url;
+    }
+
+</script>

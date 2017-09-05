@@ -1,0 +1,62 @@
+﻿@model RPG.Models.ControllerDto.Game.CharacterOverviewDto
+
+@{
+    ViewBag.Title = "CharacterOverview";
+    Layout = "~/Views/Shared/Game/CharacterLayoutPage.cshtml";
+}
+
+<div class="col-xs-12 col-md-10">
+    <div class="row">
+        <div class="col-xs-12 col-md-12">
+            @Html.Partial("~/Views/Shared/Game/Partial/Description.cshtml",Model.Character)
+        </div>
+    </div>
+        
+    <div class="row">
+        <div class="col-xs-12 col-md-6">
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    @Html.Partial("~/Views/Shared/Game/Partial/ActionsLeft.cshtml",Model.Character)
+                </div>
+            </div>
+            <div class="row">
+                @Html.Partial("~/Views/Shared/Game/Partial/Abilities.cshtml",Model.Character)
+            </div>
+            <div class="row">
+                @Html.Partial("~/Views/Shared/Game/Partial/Saves.cshtml",Model.Character)
+            </div>
+            <div class="row">
+                <div class="col-xs-8 col-md-8" style="padding-right:2px;padding-left:0;">
+                    @Html.Partial("~/Views/Shared/Game/Partial/HP.cshtml",Model.Character)
+                </div>
+                <div class="col-xs-4 col-md-4"  style="padding-right:0;padding-left:2px;">
+                    @Html.Partial("~/Views/Shared/Game/Partial/Speed.cshtml",Model.Character)
+                </div>
+            </div>
+            <div class="row">
+                @Html.Partial("~/Views/Shared/Game/Partial/ArmorClass.cshtml",Model.Character)
+            </div>
+            <div class="row">
+                <div class="col-xs-4 col-md-4" style="padding-right:2px;padding-left:0;">
+                    @Html.Partial("~/Views/Shared/Game/Partial/BaseAttack.cshtml",Model.Character)
+                </div>
+                <div class="col-xs-4 col-md-4"  style="padding-right:2px;padding-left:2px;">
+                    @Html.Partial("~/Views/Shared/Game/Partial/Initiativ.cshtml",Model.Character)
+                </div>
+                <div class="col-xs-4 col-md-4"  style="padding-right:0;padding-left:2px;">
+                    @Html.Partial("~/Views/Shared/Game/Partial/Grapple.cshtml",Model.Character)
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-6">
+                
+            <div class="row">
+                @Html.Partial("~/Views/Shared/Game/Partial/Skills.cshtml",Model.Character)
+            </div>
+        </div>
+    </div>    
+
+</div>
+<div class="col-xs-12 col-md-2">
+    @Html.Partial("~/Views/Shared/Game/Partial/UsableAbilities.cshtml",Model.Character)
+</div>

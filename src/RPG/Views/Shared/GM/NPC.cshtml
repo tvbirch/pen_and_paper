@@ -1,0 +1,149 @@
+﻿@using RPG.Controllers.Common
+@model RPG.Models.ControllerDto.GM.NpcDto
+@{
+    ViewBag.Title = "NPC";
+    Layout = "~/Views/Shared/GM/GMLayoutPage.cshtml";
+}
+
+<div class="col-xs-12">
+    <div class="row">
+        <div class="col-xs-2">
+            <div class="row">
+                <label>View NPC:</label>
+            </div>
+        </div>
+        <div class="col-xs-10">
+            <div class="row">
+                @Html.DropDownList("allnpc",new SelectList(Model.NPCs, "ID", "Name"), HtmlConfiguration.ListBoxFor_SelectSingleWithOnChange("LoadNpc(this);"))
+            </div>
+        </div>
+    </div>
+    @using (Html.BeginForm("Save", "NpcOverview", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-xs-2">
+                <div class="row">
+                    <label>Name:</label>
+                </div>
+                <div class="row">
+                    @Html.HiddenFor(m => m.SelectedItem.ID)
+                    @Html.TextBoxFor(x => x.SelectedItem.Name,HtmlConfiguration.TextBoxFor_Text)
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="row">
+                    <label>Location:</label>
+                </div>
+                <div class="row">
+                    @Html.DropDownListFor(x => x.SelectedItem.Location.ID, new SelectList(Model.Locations, "ID", "Name"), HtmlConfiguration.ListBoxFor_SelectSingle)
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="row">
+                    <label>Profession:</label>
+                </div>
+                <div class="row">
+                    @Html.TextBoxFor(x => x.SelectedItem.Profession, HtmlConfiguration.TextBoxFor_Text)
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="row">
+                    <label>Race</label>
+                </div>
+                <div class="row">
+                    @Html.TextBoxFor(x => x.SelectedItem.Race, HtmlConfiguration.TextBoxFor_Text)
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <div class="row">
+                    <label>Gender</label>
+                </div>
+                <div class="row">
+                    @Html.TextBoxFor(x => x.SelectedItem.Gender, HtmlConfiguration.TextBoxFor_Text)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-3">
+                <div class="row">
+                    <label>Age:</label>
+                </div>
+                <div class="row">
+                    @Html.TextAreaFor(x => x.SelectedItem.Age, HtmlConfiguration.TextArea5R)
+                </div>
+            </div>
+            <div class="col-xs-9">
+                <div class="row">
+                    <label>Apperance:</label>
+                </div>
+                <div class="row">
+                    @Html.TextAreaFor(x => x.SelectedItem.Description, HtmlConfiguration.TextArea5R)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="row">
+                    <label>Voice, Manners and Personality:</label>
+                </div>
+                <div class="row">
+                    @Html.TextAreaFor(x => x.SelectedItem.VoiceMannersPersonality, HtmlConfiguration.TextArea5R)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="row">
+                    <label>Relation to party:</label>
+                </div>
+                <div class="row">
+                    @Html.TextAreaFor(x => x.SelectedItem.RelationToParty, HtmlConfiguration.TextArea5R)
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="row">
+                    <label>Combat statistics:</label>
+                </div>
+                <div class="row">
+                    @Html.TextAreaFor(x => x.SelectedItem.CombatStatistics, HtmlConfiguration.TextArea5R)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <div class="row">
+                    <label>Affiliations:</label>
+                </div>
+                <div class="row">
+                    @Html.TextAreaFor(x => x.SelectedItem.Affiliations, HtmlConfiguration.TextArea5R)
+                </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="row">
+                    <label>Alligment:</label>
+                </div>
+                <div class="row">
+                    @Html.DropDownListFor(m => m.SelectedItem.Alligment.ID, new SelectList(Model.AllAlligments, "ID", "Name", Model.SelectedItem != null && Model.SelectedItem.Alligment != null ? Model.SelectedItem.Alligment.ID : (Guid?)null), HtmlConfiguration.ListBoxFor_SelectSingle)
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary">Save</button>
+            <a class="btn btn-primary" href="@Url.Action("Index", new { id = (Guid?)null })">New</a>
+            @Html.ActionLink("Delete", "Delete", "NpcOverview", new { id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null }, HtmlConfiguration.ActionLink_Button)
+        </div>
+    }
+</div>
+<h3>History:</h3>
+@Html.Partial("~/Views/Shared/GM/Partial/ViewHistory.cshtml", Model.History)
+
+
+
+
+<script type="text/javascript">
+    function LoadNpc(selected) {
+        var url = '/NpcOverview/Index/' + selected.value;
+        window.location.href = url;
+    }
+
+</script>

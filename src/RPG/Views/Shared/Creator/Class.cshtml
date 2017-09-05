@@ -1,0 +1,182 @@
+﻿@using RPG.Controllers.Common
+@using RPG.Controllers.Extenstions
+@using RPG.Models.RulebookModal
+@model RPG.Models.ControllerDto.Creator.ClassDataDto
+
+@{
+    ViewBag.Title = "Class";
+    Layout = "~/Views/Shared/CreatorLayoutPage.cshtml";
+}
+
+@using(Html.BeginForm("Save","Class",FormMethod.Post))
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <h2>Add class</h2>
+            <div class="form-group">
+                <div class="row">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#baseInfo">Base info</a></li>
+                        <li><a data-toggle="tab" href="#caster">Caster Info</a></li>
+                    </ul>
+                </div>
+                <div class="tab-content">
+                    <div id="baseInfo" class="tab-pane fade in active">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                @Html.HiddenFor(m => m.SelectedItem.ID)
+                                @Html.LabelForRequired(m => m.SelectedItem.Name) 
+                                @Html.TextBoxFor(m => m.SelectedItem.Name,HtmlConfiguration.TextBoxFor_Text)
+                                @Html.ValidationMessageFor(m => m.SelectedItem.Name)
+                            </div>
+                            <div class="row">
+                                <label>Description:</label>
+                                @Html.TextAreaFor(m => m.SelectedItem.Description,HtmlConfiguration.TextBoxFor_Text)
+                            </div>
+                            <div class="row">
+                                <label>Hit die:</label>
+                                @Html.DropDownListFor(a => a.SelectedItem.HitDie, Tools.HitDieAsSelectList(), HtmlConfiguration.DropDownListFor)
+                            </div>
+                            <div class="row">
+                                <label>Skill points pr level:</label>
+                                @Html.TextBoxFor(m => m.SelectedItem.BaseSkillPointsAtEachLevel,HtmlConfiguration.TextBoxFor_Number)
+                            </div>
+                            <div class="row">
+                                <label>Baseattack progression:</label>
+                                @Html.DropDownListFor(a => a.SelectedItem.BaseAttackBaseSaveBonus, Tools.BaseBonusRateAsSelectList(), HtmlConfiguration.DropDownListFor)
+                            </div>
+                            <div class="row">
+                                <label>Allowed allignments:</label>
+                                @Html.ListBoxFor(m => m.AllowedAllignments, new SelectList(Model.AllAlligments, "ID", "Name", Model.AllowedAllignments), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                            </div>
+                            <div class="row">
+                                <label>Class skills:</label>
+                                @Html.ListBoxFor(m => m.ClassSkills, new SelectList(Model.AllSkills, "ID", "Name", Model.ClassSkills), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                            </div>
+                        </div>
+                    </div>
+                    <div id="caster" class="tab-pane fade in">
+                        <div class="col-xs-12">
+                            <div class="row">
+                                <div class="checkbox">
+                                    <label class="btn btn-default width100">
+                                        @Html.CheckBoxFor(m => m.SelectedItem.ArcaneCaster)
+                                        Is Arcane caster?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="checkbox">
+                                    <label class="btn btn-default width100">
+                                        @Html.CheckBoxFor(m => m.SelectedItem.DivineCaster)
+                                        Is Divine caster?
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label>Ability used fofr casting</label>
+                                @Html.DropDownListFor(a => a.AbilityUsedForCasting, new SelectList(Model.AllAbilities, "ID", "Name"), "--Non--", HtmlConfiguration.ListBoxFor_SelectSingle)
+                            </div>
+                        </div>
+                        <div class="row">
+                            @if (Model.SelectedItem == null)
+                            {
+                                <p>Save to add spells</p>
+                            }
+                            else
+                            {
+                                <div class="col-xs-12 col-md-6">
+                                    <div class="row">
+                                        <label>Spell pr day, pr level</label>
+                                    </div>
+                                    <div class="row">
+                                        <table class="table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <td>Level</td>
+                                                    <td>Spell level 0</td>
+                                                    <td>Spell level 1</td>
+                                                    <td>Spell level 2</td>
+                                                    <td>Spell level 3</td>
+                                                    <td>Spell level 4</td>
+                                                    <td>Spell level 5</td>
+                                                    <td>Spell level 6</td>
+                                                    <td>Spell level 7</td>
+                                                    <td>Spell level 8</td>
+                                                    <td>Spell level 9</td>
+                                                </tr>
+                                            </thead>
+                                            @for (var i = 0; i < Model.SpellsPrDay.Length; ++i)
+                                            {
+                                            
+                                                <tr>
+                                                    <td>@Html.Raw(i + 1)</td>
+                                                    <td>@Html.TextBoxFor(m => m.SpellsPrDay[i][0],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.SpellsPrDay[i][1],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.SpellsPrDay[i][2],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.SpellsPrDay[i][3],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.SpellsPrDay[i][4],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.SpellsPrDay[i][5],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.SpellsPrDay[i][6],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.SpellsPrDay[i][7],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.SpellsPrDay[i][8],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.SpellsPrDay[i][9],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                </tr>
+                                            }  
+                                        </table>
+                                    </div>   
+                                </div>
+                                <div class="col-xs-12 col-md-6">
+                                    <div class="row">
+                                        <label>Spell known (-1 = all)</label>
+                                    </div>
+                                    <div class="row">
+                                        <table class="table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <td>Level</td>
+                                                    <td>Spell level 0</td>
+                                                    <td>Spell level 1</td>
+                                                    <td>Spell level 2</td>
+                                                    <td>Spell level 3</td>
+                                                    <td>Spell level 4</td>
+                                                    <td>Spell level 5</td>
+                                                    <td>Spell level 6</td>
+                                                    <td>Spell level 7</td>
+                                                    <td>Spell level 8</td>
+                                                    <td>Spell level 9</td>
+                                                </tr>
+                                            </thead>
+                                            @for (var i = 0; i < Model.KnownSpells.Length; ++i)
+                                            {
+                                            
+                                                <tr>
+                                                    <td>@Html.Raw(i + 1)</td>
+                                                    <td>@Html.TextBoxFor(m => m.KnownSpells[i][0],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.KnownSpells[i][1],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.KnownSpells[i][2],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.KnownSpells[i][3],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.KnownSpells[i][4],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.KnownSpells[i][5],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.KnownSpells[i][6],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.KnownSpells[i][7],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.KnownSpells[i][8],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                    <td>@Html.TextBoxFor(m => m.KnownSpells[i][9],HtmlConfiguration.TextBoxFor_Number)</td>
+                                                </tr>
+                                            }  
+                                        </table>
+                                    </div>   
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary">Save</button>
+            <a class="btn btn-primary" href="@Url.Action("Index", new { id = (Guid?)null })">New</a>
+            @Html.ActionLink("Delete","Delete","Class",new { id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null},HtmlConfiguration.ActionLink_Button)
+            @Html.ActionLink("Edit Save Rates","Index","ClassSaveRate",new { id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null,saveId = Guid.Empty},HtmlConfiguration.ActionLink_Button)
+            @Html.ActionLink("Edit Ability by Level","Index","ClassAbilityByClassLevel",new { id = Model != null && Model.SelectedItem != null ? Model.SelectedItem.ID : (Guid?)null, abilityByLevelId = (Guid?)null},HtmlConfiguration.ActionLink_Button)
+        </div>
+    </div>
+}

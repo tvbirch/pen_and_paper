@@ -1,0 +1,39 @@
+﻿@using RPG.Controllers.Common
+@model RPG.Models.ControllerDto.GM.CharactersDto
+@{
+    ViewBag.Title = "GM";
+    Layout = "~/Views/Shared/GM/GMLayoutPage.cshtml";
+}
+
+<div class="col-xs-12">
+    <h2>GM</h2>
+    @using (Html.BeginForm("Save", "GmOverview", FormMethod.Post))
+    {
+        <div class="row">
+            <label>View characters:</label>
+        </div>
+        <div class="row">
+            <div class="col-xs-8">
+                <div class="row">
+                    @Html.ListBoxFor(m => m.CharacterGuids, new SelectList(Model.Characters, "ID", "Name"), HtmlConfiguration.ListBoxFor_SelectMultiple)
+                </div>
+            </div>
+            <div class="col-xs-4">
+                <div class="row">
+                    <button class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    }
+    <div class="row">
+        @if (Model.CharacterGuids != null)
+        {
+            foreach (var guid in Model.CharacterGuids)
+            {
+                <div class="col-xs-12 col-md-4 col-lg-3">
+                    @{ Html.RenderAction("RenderCharacterCard", "GmOverview", new {id = guid});}
+                </div>    
+            }   
+        }
+    </div>
+</div>
