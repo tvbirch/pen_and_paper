@@ -97,11 +97,11 @@ namespace RPG.Models.RulebookModal.BaseTypes.Time
             return nOfRounds - numberOfRoundsActive;
         }
 
-        public bool GetIsActive(GetBonusDto bonues, Guid parentAbilityId)
+        public bool GetIsActive(GetBonusDto bonues, Guid parentAbilityId, bool? targetHit = null)
         {
             var isActive = bonues.Round.ActivatedAbilities.Any(x => x.AbilityId == parentAbilityId && x.IsActive);
 
-            var autoActive = Amount.ActionRequired == RoundAction.AutoOnHit || Amount.ActionRequired == RoundAction.AutoOnTakeDamage;
+            var autoActive = (Amount.ActionRequired == RoundAction.AutoOnHit && targetHit.GetValueOrDefault()) || Amount.ActionRequired == RoundAction.AutoOnTakeDamage;
             if (isActive && !autoActive)
             {
                 return true;

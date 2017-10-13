@@ -726,7 +726,13 @@ namespace RPG.Models.Context
         }
         public List<T> GetAll<T>() where T : GameId
         {
-            return GetQueryable<T>().ToList();
+            var allItems = GetQueryable<T>().ToList();
+            var finalList = new List<T>(allItems.Count);
+            foreach(var item in allItems)
+            {
+                finalList.Add(Get<T>(item.ID));
+            }
+            return finalList;
         }
 
         public void CreateOrUpdate<T>(T item) where T : GameId

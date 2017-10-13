@@ -100,11 +100,11 @@ namespace RPG.Models.RulebookModal.BaseTypes.SpecialAbilities
             return true;
         }
 
-        public bool IsActive(GetBonusDto bonues)
+        public bool IsActive(GetBonusDto bonues, bool? targetHit = null)
         {
             if (Limit != null && IsLimited())
             {
-                return Limit.GetIsActive(bonues,ID);
+                return Limit.GetIsActive(bonues, ID, targetHit);
             }
             if (RequiresSpecialAbilityActive != null)
             {
@@ -126,7 +126,7 @@ namespace RPG.Models.RulebookModal.BaseTypes.SpecialAbilities
                     .Sum();
             if (RequiredNumberOfCharges.HasValue)
             {
-                return RequiredNumberOfCharges.Value >= active;
+                return RequiredNumberOfCharges.Value <= active;
             }
             else
             {
@@ -134,27 +134,27 @@ namespace RPG.Models.RulebookModal.BaseTypes.SpecialAbilities
             }
         }
 
-        public List<RoundActivateAbilities> ChangeTime(TimeLimitUnit unit, GetBonusDto bonues)
+        public List<RoundActivateAbilities> ChangeTime(ChangeCharacterTimeDto changeCharacterTimeDto)
         {
             if (Bonuses != null)
             {
                 if (Limit != null)
                 {
-                    var isNoLongerActive = Limit.ChangeTime(unit, bonues, ID);
+                    var isNoLongerActive = Limit.ChangeTime(changeCharacterTimeDto.TimeUnit, changeCharacterTimeDto.Bonus, ID);
                     if (isNoLongerActive)
                     {
-                        var toInaktivate = bonues.Round.ActivatedAbilities.Where(x => x.AbilityId == ID && x.IsActive).ToList();
+                        var toInaktivate = changeCharacterTimeDto.Bonus.Round.ActivatedAbilities.Where(x => x.AbilityId == ID && x.IsActive).ToList();
                         foreach (var activateAbilitiese in toInaktivate)
                         {
                             activateAbilitiese.IsActive = false;
                         }
                         if (ApplyConditionOnDeactivate != null)
                         {
-                            bonues.Round.ApplyCondition(ApplyConditionOnDeactivate, ID);
+                            changeCharacterTimeDto.Bonus.Round.ApplyCondition(ApplyConditionOnDeactivate, ID);
                         }
                     }
-
-                    if ((int)Limit.Duration.Unit.GetValueOrDefault() == (int)unit)
+                    var isActive = IsActive(changeCharacterTimeDto.Bonus, changeCharacterTimeDto.TargetHit);
+                    if ((int)Limit.Duration.Unit.GetValueOrDefault() == (int)changeCharacterTimeDto.TimeUnit && isActive)
                     {
                         var hpDmgBonuses = Bonuses.Where(x => x.ShouldApplyTo(new GameId
                         {
@@ -162,12 +162,12 @@ namespace RPG.Models.RulebookModal.BaseTypes.SpecialAbilities
                         }, typeof(HitPoints))).ToList();
                         if (hpDmgBonuses.Any())
                         {
-                            var dmgToTake = hpDmgBonuses.MaxBonuesSum(bonues);
+                            var dmgToTake = hpDmgBonuses.MaxBonuesSum(changeCharacterTimeDto.Bonus);
                             if (Limit.Amount != null)
                             {
-                                dmgToTake = Limit.Amount.LimitAutoChargesIfNecessary(dmgToTake, bonues);
+                                dmgToTake = Limit.Amount.LimitAutoChargesIfNecessary(dmgToTake, changeCharacterTimeDto.Bonus);
                             }
-                            bonues.Character.TakeDamage(true, DamageType.AllWeapons, dmgToTake, true);
+                            changeCharacterTimeDto.Bonus.Character.TakeDamage(true, DamageType.AllWeapons, dmgToTake, true);
                         }
 
                         var hpDmgNlBonuses = Bonuses.Where(x => x.ShouldApplyTo(new GameId
@@ -176,12 +176,12 @@ namespace RPG.Models.RulebookModal.BaseTypes.SpecialAbilities
                         }, typeof(HitPoints))).ToList();
                         if (hpDmgNlBonuses.Any())
                         {
-                            var dmgToTake = hpDmgNlBonuses.MaxBonuesSum(bonues);
+                            var dmgToTake = hpDmgNlBonuses.MaxBonuesSum(changeCharacterTimeDto.Bonus);
                             if (Limit.Amount != null)
                             {
-                                dmgToTake = Limit.Amount.LimitAutoChargesIfNecessary(dmgToTake, bonues);
+                                dmgToTake = Limit.Amount.LimitAutoChargesIfNecessary(dmgToTake, changeCharacterTimeDto.Bonus);
                             }
-                            bonues.Character.TakeDamage(false, DamageType.AllWeapons, dmgToTake, true);
+                            changeCharacterTimeDto.Bonus.Character.TakeDamage(false, DamageType.AllWeapons, dmgToTake, true);
                         }
 
                         var hpHealBonuses = Bonuses.Where(x => x.ShouldApplyTo(new GameId
@@ -190,18 +190,18 @@ namespace RPG.Models.RulebookModal.BaseTypes.SpecialAbilities
                         }, typeof(HitPoints))).ToList();
                         if (hpHealBonuses.Any())
                         {
-                            var dmgToHeal = hpHealBonuses.MaxBonuesSum(bonues);
+                            var dmgToHeal = hpHealBonuses.MaxBonuesSum(changeCharacterTimeDto.Bonus);
                             if (Limit.Amount != null)
                             {
-                                dmgToHeal = Limit.Amount.LimitAutoChargesIfNecessary(dmgToHeal,bonues);
+                                dmgToHeal = Limit.Amount.LimitAutoChargesIfNecessary(dmgToHeal, changeCharacterTimeDto.Bonus);
                             }
-                            bonues.Character.HealDamage(dmgToHeal);
+                            changeCharacterTimeDto.Bonus.Character.HealDamage(dmgToHeal);
                         }
                     }
 
-                    if ((int)unit >= (int)Limit.Amount.ResetUseTimeLimtUnit.GetValueOrDefault())
+                    if ((int)changeCharacterTimeDto.TimeUnit >= (int)Limit.Amount.ResetUseTimeLimtUnit.GetValueOrDefault())
                     {
-                        return bonues.Round.ActivatedAbilities.Where(x => x.AbilityId == ID).ToList();
+                        return changeCharacterTimeDto.Bonus.Round.ActivatedAbilities.Where(x => x.AbilityId == ID).ToList();
                     }
                 }
             }

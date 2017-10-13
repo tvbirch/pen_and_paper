@@ -110,14 +110,10 @@
         var speedInFeet = $("#travelSpeedFixedSpeed").val();
         var terrainModifier = $("#travelSpeedTerrain").val();
         var finalSpeed = speedInFeet / hamperedModifier * terrainModifier;
-        var finalSpeedPrSec = finalSpeed / 6; //6 to go from round to sec
-        var finalSpeedInMph = finalSpeedPrSec * 0.681818182; //Convertering from feet pr sec to miles pr hour
-        var totalTimeInHours = distance / finalSpeedInMph;
-        var totalTimeInTravelDays = totalTimeInHours / 8; //You can only walk 8 hours a day
-
-        var totalDays = Math.floor(totalTimeInTravelDays);
-        var hours = Math.round((totalTimeInTravelDays - totalDays) * 24);
-
+        var totalTime = distance / Math.round(finalSpeed / 6 * 3600 * 8 * 0.000189393939 / 1.136364);
+        
+        var totalDays = Math.floor(totalTime);
+        var hours = Math.round((totalTime - totalDays)*8);
 
         $("#travelSpeedResult").val(totalDays + "days " + hours + "hours");
     }

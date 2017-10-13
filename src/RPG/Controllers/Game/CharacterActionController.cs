@@ -16,15 +16,19 @@ namespace RPG.Controllers.Game
     {
         public void ChangeRound(Guid id)
         {
-            ChangeTime(id, TimeLimitUnit.Round);
+            ChangeTime(new ChangeTimeDto
+            {
+                CharacterId = id,
+                TimeLimitUnit = TimeLimitUnit.Round
+            });
         }
 
-        private void ChangeTime(Guid id, TimeLimitUnit timeUnit, Character character = null)
+        private void ChangeTime(ChangeTimeDto changeTime)
         {
-            var cha = character ?? Context.LoadCharacter(id);
-            var actionsToRemove = cha.ChangeTime(timeUnit);
+            var cha = changeTime.Character ?? Context.LoadCharacter(changeTime.CharacterId);
+            var actionsToRemove = cha.ChangeTime(changeTime);
             ChangeTimeCleanDb(actionsToRemove);
-            if (timeUnit == TimeLimitUnit.Day && cha.SpellSlots != null)
+            if (changeTime.TimeLimitUnit == TimeLimitUnit.Day && cha.SpellSlots != null)
             {
                 foreach (var spellSlot in cha.SpellSlots)
                 {
@@ -87,11 +91,19 @@ namespace RPG.Controllers.Game
 
         public void ChangeEncounter(Guid id)
         {
-            ChangeTime(id,TimeLimitUnit.Encounter);
+            ChangeTime(new ChangeTimeDto
+            {
+                CharacterId = id,
+                TimeLimitUnit = TimeLimitUnit.Encounter
+            });
         }
         public void ChangeDay(Guid id)
         {
-            ChangeTime(id, TimeLimitUnit.Day);
+            ChangeTime(new ChangeTimeDto
+            {
+                CharacterId = id,
+                TimeLimitUnit = TimeLimitUnit.Day
+            });
         }
 
         public void TakeAction(Guid id, int action)
@@ -136,7 +148,13 @@ namespace RPG.Controllers.Game
             }
 
             Context.Context.SaveChanges();
-            ChangeTime(id, TimeLimitUnit.Attack,cha);
+            //ChangeTime(id, TimeLimitUnit.Attack,cha/*, nrOfEnemies != 0*/);
+            ChangeTime(new ChangeTimeDto {
+                CharacterId= id,
+                Character = cha,
+                TimeLimitUnit = TimeLimitUnit.Attack,
+                HitTarget = nrOfEnemies > 0
+            });
         }
 
         public void AddCondtion(Guid id, Guid conditionId)

@@ -147,16 +147,16 @@ namespace RPG.Models.RulebookModal.Rounds
             return possibleAction;
         }
 
-        public TimeChangeRemoval ChangeTime(TimeLimitUnit unit, GetBonusDto bonues)
+        public TimeChangeRemoval ChangeTime(ChangeCharacterTimeDto changeCharacterTimeDto)
         {
             ActivatedAbilities.ForEach(x => x.ActiveTime.Add(new TimeLimitUnitParsed
             {
-                Time = unit
+                Time = changeCharacterTimeDto.TimeUnit
             }));
             var toRemove = new List<RoundActivateAbilities>();
-            foreach (var feat in bonues.Feats)
+            foreach (var feat in changeCharacterTimeDto.Bonus.Feats)
             {
-                toRemove.AddRange(feat.ChangeTime(unit, bonues));
+                toRemove.AddRange(feat.ChangeTime(changeCharacterTimeDto));
             }
 
             foreach (var roundActivateAbilitiese in toRemove)
@@ -166,18 +166,18 @@ namespace RPG.Models.RulebookModal.Rounds
             }
 
             var dmgToRemove = new List<DamageTaken>();
-            if (unit == TimeLimitUnit.Encounter || unit == TimeLimitUnit.Day)
+            if (changeCharacterTimeDto.TimeUnit == TimeLimitUnit.Encounter || changeCharacterTimeDto.TimeUnit == TimeLimitUnit.Day)
             {
-                dmgToRemove = bonues.Character.HitPoints.DamgeToDelete(bonues);
+                dmgToRemove = changeCharacterTimeDto.Bonus.Character.HitPoints.DamgeToDelete(changeCharacterTimeDto.Bonus);
             }
 
             //UsedActions.RemoveAll(x => x.ID == Guid.Empty);
             
             return new TimeChangeRemoval
             {
-                UsedActions = GetActionToRemove(UsedActions,unit),
+                UsedActions = GetActionToRemove(UsedActions, changeCharacterTimeDto.TimeUnit),
                 DeaktivatedAbilities = toRemove,
-                DeaktivatedConditions = ActivatedConditions.Where(x => x.AutoDismissAfter.HasValue && (int)x.AutoDismissAfter.Value <= (int)unit).ToList(),
+                DeaktivatedConditions = ActivatedConditions.Where(x => x.AutoDismissAfter.HasValue && (int)x.AutoDismissAfter.Value <= (int)changeCharacterTimeDto.TimeUnit).ToList(),
                 DamagesToRemove = dmgToRemove
             };
         }

@@ -55,6 +55,11 @@ namespace RPG.Models.CharacterModal.Parts
         {
             var localBonues = GetDamageReductionBonues(bonusDto);
             localBonues = localBonues.Where(x => x.Bonues.IsOfType(type)).ToList();
+            if(localBonues.Count == 0)
+            {
+                return 0;
+            }
+
             var max = localBonues.Max(x => x.GetBonus(bonusDto).GetFixedAmount());
 
             return Math.Max(0, max);

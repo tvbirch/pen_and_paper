@@ -165,9 +165,14 @@ namespace RPG.Models.CharacterModal
             return Inventory.BagItems.Where(x => x.IsEquipped.GetValueOrDefault()).ToList();
         }
 
-        public TimeChangeRemoval ChangeTime(TimeLimitUnit unit)
+        public TimeChangeRemoval ChangeTime(ChangeTimeDto changeTimeDto)
         {
-            TimeChangeRemoval actionsToRemove = Round.ChangeTime(unit,_bonusDto);
+            TimeChangeRemoval actionsToRemove = Round.ChangeTime(new ChangeCharacterTimeDto
+                {
+                    TimeUnit = changeTimeDto.TimeLimitUnit,
+                    Bonus = _bonusDto,
+                    TargetHit = changeTimeDto.HitTarget
+                });
             return actionsToRemove;
         }
         
