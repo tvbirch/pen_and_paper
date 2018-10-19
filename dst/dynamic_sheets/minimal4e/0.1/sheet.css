@@ -1,0 +1,67 @@
+/****************************
+* This is the CSS for the DST.
+* Copy and paste this directly into the CSS textarea on obsidianportal.com
+*****************************/
+
+
+/****************************
+* Basic Info
+*****************************/
+.ds_minimal4e .level {
+}
+
+/****************************
+* Ability Scores
+*****************************/
+.ds_minimal4e .ability_scores {
+  margin-top: 30px;
+}
+
+.ds_minimal4e .ability_score {
+  clear: left;
+}
+
+.ds_minimal4e .ability_score_header span {
+  display: block;
+  float: left;
+  width: 120px;
+  font-weight: bold;
+}
+
+.ds_minimal4e .ability_score_name {
+  display: block;
+  float: left;
+  width: 120px;
+  font-weight: bold;
+}
+
+.ds_minimal4e .ability_score_score {
+  display: block;
+  float: left;
+  width: 120px;
+}
+
+.ds_minimal4e .ability_score_modifier {
+  display: block;
+  float: left;
+  width: 120px;
+}
+
+.ds_minimal4e .ability_score_modifier_plus_half_level {
+  display: block;
+  float: left;
+  width: 120px;
+}
+
+/****************************
+* Ability Scores
+*****************************/
+
+.ds_minimal4e .trained_skills {
+  margin-top: 30px;
+  clear: both;
+}
+
+.ds_minimal4e .trained_skills ul {
+  list-style-type: none;
+}
